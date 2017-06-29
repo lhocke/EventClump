@@ -28,6 +28,7 @@ function nowPlaying{
     url : "https://api.themoviedb.org/3/movie/now_playing?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
     method : "GET"
   }).done(function(res){
+    var title = $('<td>')
 
   })
 }
