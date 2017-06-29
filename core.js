@@ -18,19 +18,21 @@ var category;
 var location;
 var queryURL;
 
-var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
-var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
+// var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
+// var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
 $(document).ready(nowPlaying);
 
-function nowPlaying{
+function nowPlaying() {
   $.ajax({
     url : "https://api.themoviedb.org/3/movie/now_playing?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
     method : "GET"
   }).done(function(res){
-    $('res.results').each(){
-      var title = res.results.title;
-      var titleDisplay = $('<td>' + title);
+    var response = res.results;
+    for (var i = 0; i < response.length; i++){
+      var title = response[i].title;
+      console.log(title)
+      var titleDisplay = $('<td>').append(title);
 
       var movieDisplay = $('<tr>');
       movieDisplay.append(titleDisplay)
@@ -49,4 +51,4 @@ function nowPlaying{
 
 // use scrollspy on results list
 
-// $('body').scrollspy({ target: '#navbar-example' })
+$('body').scrollspy({ target: '#now-playing' })
