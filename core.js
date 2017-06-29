@@ -14,12 +14,30 @@ var database = firebase.database();
 var genre;
 var queryURL;
 var keyword;
+var category;
+var location;
+var queryURL;
 
-var eventful = "http://api.eventful.com/json/events/search?" + "&app_key=TrvGWQVsBrMhNwnd"
+var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
+var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
+$(document).ready(nowPlaying);
 
+function nowPlaying{
+  $.ajax({
+    url : "https://api.themoviedb.org/3/movie/now_playing?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+    method : "GET"
+  }).done(function(res){
 
+  })
+}
 
+// $.ajax({
+//   url : queryURL,
+//   method : "GET"
+// }).done(function(res){
+
+// })
 
 // use scrollspy on results list
 
