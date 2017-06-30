@@ -79,7 +79,3 @@ function nowPlaying(snap, prevChildKey){
   movieDisplay.append(displayPoster, titleDisplay);
   $('#movie-schedule').append(movieDisplay);
 }
-
-// use scrollspy on results list
-
-$('body').scrollspy({ target: '#movie-schedule' })
