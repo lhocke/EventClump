@@ -16,6 +16,7 @@ var queryURL;
 var keyword;
 var category;
 var location;
+
 // var queryURL;
 var movieTitle = [];
 var x = 0;
@@ -30,14 +31,13 @@ $(document).ready(getMoviePoster);
 
 database.ref('nowPlaying').on('child_added', nowPlaying);
 
-
-
 function getMoviePoster() {
   // pull currently playing movies from themoviedb
   $.ajax({
     url : "https://api.themoviedb.org/3/movie/now_playing?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
     method : "GET"
   }).done(function(res){
+
     var response = res.results;
     for (var i = 0; i < response.length; i++){
       var title = response[i].title;
@@ -80,9 +80,6 @@ function nowPlaying(snap, prevChildKey){
   $('#movie-schedule').append(movieDisplay);
 }
 
-
 // use scrollspy on results list
-
-// $(document).ready(getMoviePoster)
 
 $('body').scrollspy({ target: '#movie-schedule' })
