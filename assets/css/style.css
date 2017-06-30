@@ -58,16 +58,9 @@ body {
 	margin-top: 9px;
 }
 
-#now-playing {
+#now-playing, #events, #sports {
 	height: 400px;
-}
-
-#events {
-	height: 400px;
-}
-
-#sports {
-	height: 400px;
+	overflow-y: scroll;
 }
 
 .site-footer, .container:after {
@@ -89,7 +82,7 @@ body {
 }
 /*Styling the footer text*/
 .footer {
-	padding-top: 23px;
+	padding-top: 10px;
 	color: #cccccc;
 }
 
