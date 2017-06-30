@@ -1,0 +1,54 @@
+body {
+  background: url("../images/background.jpg");
+}
+
+.jumbotron {
+    min-height: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background: url("../images/space.jpg");
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#welcome {
+	padding-top: 50px;
+	color: white;
+
+}
+
+.teal-back {
+	background-color: #56e0ea;
+}
+
+.h1font {
+	font-family: Georgia;
+	color: #ffffff;
+}
+
+.container-fluid {
+	background-color: #666666;
+}
+
+.navbar-right{
+	background: #56e0ea;
+	padding-bottom: 10px;
+}
+
+.navbar-right li {
+	margin-top: 9px;
+}
+
+#footer {
+	bottom: 0;
+	width: 100%;
+	height: 80px;
+	border-top: solid 4px #4aaaa5;
+	background: #666666;
+}
+/*Styling the footer text*/
+.footer {
+	padding-top: 23px;
+	color: #cccccc;
+}
+
