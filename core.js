@@ -17,16 +17,22 @@ var keyword;
 var category;
 var location;
 // var queryURL;
-var movieTitle;
+var movieTitle = [];
 var x = 0;
-var poster = "";
+var posterArray = [];
 
 // var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
 // var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
-$(document).ready(nowPlaying);
+// $(document).ready()
 
-function nowPlaying() {
+$(document).ready(getMoviePoster);
+
+database.ref('nowPlaying').on('child_added', nowPlaying);
+
+
+
+function getMoviePoster() {
   // pull currently playing movies from themoviedb
   $.ajax({
     url : "https://api.themoviedb.org/3/movie/now_playing?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
@@ -34,66 +40,46 @@ function nowPlaying() {
   }).done(function(res){
     var response = res.results;
     for (var i = 0; i < response.length; i++){
-      movieTitle = response[i].title;
-
-      database.ref().child('nowPlaying').push({
-        title : movieTitle,
-        poster : poster
-      })
-      // pull posters from omdb
+      var title = response[i].title;
+      movieTitle.push(title);
+    }
+    // pull info from omdb and log to firebase
+    for (var i = 0; i < movieTitle.length; i++){
+      var title = movieTitle[i];
+      console.log(title);
       $.ajax({
-        url : "http://omdbapi.com/?apikey=40e9cece&t=" + movieTitle,
+        url : "http://omdbapi.com/?apikey=40e9cece&t=" + title,
         method : "GET"
       }).done(function(results){
-        // console.log("pulling")
+        console.log(results)
         var posterURL = results.Poster;
         console.log(posterURL)
-        database.ref("nowPlaying").update({
-          poster : posterURL
+        var newTitle = results.Title
+        database.ref().child("nowPlaying/" + newTitle).update({
+          title: newTitle,
+          poster : posterURL,
         })
       })
     }
   })
 }
-// pull data from firebase and append
 
-      // poster.attr('id', 'poster' + y)
-      // poster.addClass('img')
-      // poster.addClass('img-responsive')
-      // console.log(res.Poster);
-      // var posterDisplay = $('<td>').append(poster);
-      // movieDisplay.append(poster);
+// pull information from firebase
+function nowPlaying(snap, prevChildKey){
+  // getMoviePoster;
+  var movieDisplay = $('<tr>');
+  // create image data for table
+  console.log(snap.val().title)
+  var moviePoster = $('<img>').attr('src', snap.val().poster);
+  moviePoster.addClass('img img-responsive');
+  var displayPoster = $('<td>').append(moviePoster);
 
-      // var movieDisplay = $('<tr>').attr('id', 'movie-' + i);
+  var titleDisplay = $('<td>').append(snap.val().title);
 
-      // console.log(movieTitle)
-      // var titleDisplay = $('<td>').append(movieTitle);
+  movieDisplay.append(displayPoster, titleDisplay);
+  $('#movie-schedule').append(movieDisplay);
+}
 
-      // // var movieDisplay = $('<tr>');
-      // movieDisplay.append(titleDisplay)
-
-      // $('#movie-schedule').append(movieDisplay)
-      // x++
-    // }
-
-//   })
-
-
-// function getMoviePoster(){
-  // $.ajax({
-  //   url : "http://omdbapi.com/?apikey=40e9cece&t=wonder+woman",
-  //   method : "GET"
-  // }).done(function(res){
-  //   console.log(res.Poster)
-  //   console.log("hello")
-  // })
-// }
-// $.ajax({
-//   url : queryURL,
-//   method : "GET"
-// }).done(function(res){
-
-// })
 
 // use scrollspy on results list
 
