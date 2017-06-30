@@ -1,5 +1,14 @@
+* {
+	margin: 0;
+}
+
+html {
+	height: 100%;
+}
+
 body {
-  background: url("../images/background.jpg");
+	height:100%;
+  	background: url("../images/background.jpg");
 }
 
 .jumbotron {
@@ -30,6 +39,16 @@ body {
 	background-color: #666666;
 }
 
+.container {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -50px; 
+}
+.container:after {
+  content: "";
+  display: block;
+}
+
 .navbar-right{
 	background: #56e0ea;
 	padding-bottom: 10px;
@@ -39,10 +58,32 @@ body {
 	margin-top: 9px;
 }
 
-#footer {
+#now-playing {
+	height: 400px;
+}
+
+#events {
+	height: 400px;
+}
+
+#sports {
+	height: 400px;
+}
+
+.site-footer, .container:after {
+  height: 50px; 
+}
+.site-footer {
+	bottom: 0;
+	padding-bottom: 10px;
+	border-top: solid 4px #4aaaa5;
+	background: #666666;
+}
+/*#footer {
+	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 80px;
+	height: 60px;
 	border-top: solid 4px #4aaaa5;
 	background: #666666;
 }
