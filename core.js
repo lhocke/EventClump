@@ -85,4 +85,4 @@ function nowPlaying(snap, prevChildKey){
 
 // $(document).ready(getMoviePoster)
 
-$('body').scrollspy({ target: '#now-playing' })
+$('body').scrollspy({ target: '#movie-schedule' })
