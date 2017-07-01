@@ -17,9 +17,7 @@ var keyword = "";
 var category;
 var location;
 var currentMovies = "now_playing?region=US&";
-// var apiArray = [];
 
-// var queryURL;
 var movieTitle = [];
 // var movieTitle = {};
 var x = 0;
@@ -30,7 +28,8 @@ var posterArray = [];
 
 // $(document).ready()
 
-$(document).ready(getMoviePoster);
+$(document).ready(getMoviePoster),function(err){
+  console.log(ere.code)};
 
 database.ref('nowPlaying').on('child_added', nowPlaying);
 
@@ -56,19 +55,17 @@ function getMoviePoster() {
     method : "GET"
   }).done(function(res){
     var response = res.results;
-    console.log(response)
     for (var i = 0; i < response.length; i++){
       var title = {};
       title.name = response[i].title;
       title.id = response[i].id;
-      title.imdbID = "";
+      // title.imdbID = "";
       movieTitle.push(title);
       // title.name = title;
       // title.id = response[i].id;
     }
-    console.log(movieTitle)
     for (var i = 0; i < movieTitle.length; i++){
-      console.log(x)
+      // console.log(x)
       var id = movieTitle[i].id;
       // var item = movieTitle[i]
       // console.log(movieTitle[i].id)
@@ -76,28 +73,27 @@ function getMoviePoster() {
         url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
         method : "GET"
       }).done(function(res){
-        // console.log(res)
         var imdbID = res.imdb_id;
-        // console.log(imdbID)
-        console.log(movieTitle)
         movieTitle[x].imdbID = imdbID;
+        x++
       })
-      x++
     }
 
     // pull info from omdb and log to firebase
     for (var i = 0; i < movieTitle.length; i++){
       var name = movieTitle[i].name;
-      // var imdbID = movieTitle[i].imdbID
+      var imdbID = movieTitle[i].imdbID;
+      console.log(movieTitle[i])
       // console.log(name);
       $.ajax({
-        url : "http://omdbapi.com/?apikey=40e9cece&t=" + name + "&y=" + moment().year(),
+        // url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
+        url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
         method : "GET"
       }).done(function(results){
-        // console.log(results)
+        console.log(results)
         var posterURL = results.Poster;
-        // console.log(posterURL)
-        var newTitle = results.Title
+        console.log(results.Title)
+        var newTitle = results.Title;
         database.ref().child("nowPlaying/" + newTitle).update({
           title: newTitle,
           poster : posterURL,
