@@ -19,9 +19,9 @@ var location;
 var currentMovies = "now_playing?region=US&";
 
 var movieTitle = [];
-var imdbIdStore = [];
+var idStore = [];
 // var movieTitle = {};
-var x = 0;
+// var x = 0;
 var posterArray = [];
 
 // var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
@@ -59,27 +59,60 @@ function getMoviePoster() {
     for (var i = 0; i < response.length; i++){
       var title = {id : response[i].id,
         name : response[i].title};
-      // title.imdbID = "";
       movieTitle.push(title);
-      // title.name = title;
-      // title.id = response[i].id;
+      database.ref().child("nowPlaying/" + response[i].title).update({
+        title: response[i].title
+      })
     }
     for (var i = 0; i < movieTitle.length; i++){
-      // console.log(x)
       var id = movieTitle[i].id;
-      // var item = movieTitle[i]
-      // console.log(movieTitle[i].id)
       $.ajax({
         url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
         method : "GET"
       }).done(function(res){
-        var imdbID = res.imdb_id;
-        imdbIdStore.push(imdbID);
+        var imdbID = {imdb : res.imdb_id};
+        idStore.push(imdbID)
+        database.ref().child("nowPlaying/" + res.title).update({
+          imdbID : imdbID
+        })
       })
-      console.log(imdbIdStore[i])
     }
+
+    // database.ref().on('child_added', function(snapshot){
+    //   var id = snapshot.val().imdbID;
+    //   $.ajax({
+    //     url : "https://omdbapi.com/?apikey=40e9cece&i=" + id,
+    //     method : "GET"
+    //   }).done(function(res){
+    //     var posterURL = res.Poster;
+    //     var newTitle = res.Title;
+    //     database.ref().child("nowPlaying/" + newTitle).update({
+    //       poster : posterURL
+    //     })
+    //   })
+    // })
+
+// non-functioning
+    // for (var i = 0; i < idStore.length; i++){
+    //   var id = idStore[i].imdb
+    //   console.log(id)
+    //   $.ajax({
+    //     url : "https://omdbapi.com/?apikey=40e9cece&i=" + id,
+    //     method : "GET"
+    //   }).done(function(res){
+    //     var posterURL = res.Poster;
+    //     var newTitle = res.Title;
+    //     database.ref().child("nowPlaying/" + newTitle).update({
+    //       poster : posterURL
+    //     })
+    //   })
+    // }
+
+
     // pull info from omdb and log to firebase
     for (var i = 0; i < movieTitle.length; i++){
+      console.log(movieTitle[i])
+      console.log(i)
       var name = movieTitle[i].name;
       // var imdbID = movieTitle[i].imdbID;
       $.ajax({
@@ -91,12 +124,12 @@ function getMoviePoster() {
         var posterURL = results.Poster;
         var newTitle = results.Title;
         database.ref().child("nowPlaying/" + newTitle).update({
-          title: newTitle,
           poster : posterURL,
           // id : imdbID
         })
       })
     }
+
   })
 }
 
