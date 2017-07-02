@@ -19,6 +19,7 @@ var location;
 var currentMovies = "now_playing?region=US&";
 
 var movieTitle = [];
+var imdbIdStore = [];
 // var movieTitle = {};
 var x = 0;
 var posterArray = [];
@@ -29,7 +30,7 @@ var posterArray = [];
 // $(document).ready()
 
 $(document).ready(getMoviePoster),function(err){
-  console.log(ere.code)};
+  console.log(err.code)};
 
 database.ref('nowPlaying').on('child_added', nowPlaying);
 
@@ -56,9 +57,8 @@ function getMoviePoster() {
   }).done(function(res){
     var response = res.results;
     for (var i = 0; i < response.length; i++){
-      var title = {};
-      title.name = response[i].title;
-      title.id = response[i].id;
+      var title = {id : response[i].id,
+        name : response[i].title};
       // title.imdbID = "";
       movieTitle.push(title);
       // title.name = title;
@@ -74,25 +74,21 @@ function getMoviePoster() {
         method : "GET"
       }).done(function(res){
         var imdbID = res.imdb_id;
-        movieTitle[x].imdbID = imdbID;
-        x++
+        imdbIdStore.push(imdbID);
       })
+      console.log(imdbIdStore[i])
     }
-
     // pull info from omdb and log to firebase
     for (var i = 0; i < movieTitle.length; i++){
       var name = movieTitle[i].name;
-      var imdbID = movieTitle[i].imdbID;
-      console.log(movieTitle[i])
-      // console.log(name);
+      // var imdbID = movieTitle[i].imdbID;
       $.ajax({
         // url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
         url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
         method : "GET"
       }).done(function(results){
-        console.log(results)
+
         var posterURL = results.Poster;
-        console.log(results.Title)
         var newTitle = results.Title;
         database.ref().child("nowPlaying/" + newTitle).update({
           title: newTitle,
