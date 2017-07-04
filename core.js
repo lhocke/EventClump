@@ -39,7 +39,7 @@ $(document).ready(getMoviePoster),function(err){
 database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
   console.log(err.code)};
 
-database.ref('nowPlaying').once('child_changed', nowPlaying),function(err){
+database.ref('nowPlaying/').on("child_added", nowPlaying),function(err){
   console.log(err.code)};
 
 
@@ -97,15 +97,12 @@ function getMoviePoster() {
 function imdbPoster(){
     // pull info from omdb and log to firebase
   for (var i = 0; i < idStore.length; i++){
-    // console.log(idStore[i])
-    // console.log(i)
     var imdbID = idStore[i];
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       // url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
       method : "GET"
     }).done(function(results){
-      console.log('complete')
       var posterURL = results.Poster;
       var newTitle = results.Title;
       database.ref().child("nowPlaying/" + newTitle).update({
@@ -118,6 +115,7 @@ function imdbPoster(){
 
 // pull information from firebase
 function nowPlaying(snap, prevChildKey){
+  console.log("run")
   // idStore = "";
   // movieTitle = "";
   var movieDisplay = $('<tr>');
