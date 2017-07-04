@@ -125,7 +125,7 @@ function imdbPoster(){
 }
 
 
-// pull information from firebase to create life
+// pull information from firebase to create display
 function nowPlaying(snap, prevChildKey){
   console.log("run")
   // idStore = "";
