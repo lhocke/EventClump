@@ -17,7 +17,7 @@ var keyword = "";
 var category;
 var location;
 var currentMovies = "now_playing?region=US&";
-
+var databaseExists = false;
 var movieTitle = [];
 var idStore = [];
 // var movieTitle = {};
@@ -29,19 +29,7 @@ var posterArray = [];
 
 // $(document).ready()
 
-$(document).ready(getMoviePoster),function(err){
-  console.log(err.code)};
-
-// database.ref('nowPlaying').once("value", nowPlaying),function(err){
-//   da
-// }
-
-database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
-  console.log(err.code)};
-
-database.ref('nowPlaying/').on("child_added", nowPlaying),function(err){
-  console.log(err.code)};
-
+$(document).ready(dataCheck);
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -54,6 +42,31 @@ function dataClear(){
   database.ref('nowPlaying').remove();
 };
 
+// check for existing database and load page
+function dataCheck(){
+  database.ref("nowPlaying").once("value").then(function(snapshot){
+    databaseExists = snapshot.exists()
+    console.log(databaseExists)
+    if (databaseExists === true) {
+      database.ref("nowPlaying").once("value", existingDatabase),function(err){
+        console.log(err.code)};
+        console.log("second")
+    }
+
+    else {
+      $(document).ready(getMoviePoster),function(err){
+        console.log(err.code)};
+
+      database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
+        console.log(err.code)};
+
+      database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
+        console.log(err.code)};
+    }
+  })
+}
+
+// fetch movies and create database
 function getMoviePoster() {
   if (keyword === ""){
     keyword = currentMovies;
@@ -93,9 +106,8 @@ function getMoviePoster() {
     }
   })
 }
-
+// fetch movie posters using imdb id for accuracy
 function imdbPoster(){
-    // pull info from omdb and log to firebase
   for (var i = 0; i < idStore.length; i++){
     var imdbID = idStore[i];
     $.ajax({
@@ -113,7 +125,7 @@ function imdbPoster(){
 }
 
 
-// pull information from firebase
+// pull information from firebase to create life
 function nowPlaying(snap, prevChildKey){
   console.log("run")
   // idStore = "";
@@ -128,12 +140,23 @@ function nowPlaying(snap, prevChildKey){
   var titleDisplay = $('<td>').append(snap.val().title);
 
   movieDisplay.append(displayPoster, titleDisplay);
-  $('#movie-schedule').append(movieDisplay);
+  $('#movie-schedule').prepend(movieDisplay);
 }
 
-// function movieSearch(){
-//   keyword = input.val().trim
-//   .$ajax({
-//     url: 
-//   })
-// }
+function existingDatabase(snapshot){
+  snapshot.forEach(function(childSnapshot){
+    // idStore = "";
+    // movieTitle = "";
+    var movieDisplay = $('<tr>');
+    // create image data for table
+    // console.log(snap.val().title)
+    var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+    moviePoster.addClass('img img-responsive');
+    var displayPoster = $('<td>').append(moviePoster);
+
+    var titleDisplay = $('<td>').append(childSnapshot.val().title);
+
+    movieDisplay.append(displayPoster, titleDisplay);
+    $('#movie-schedule').append(movieDisplay);
+  })
+}
