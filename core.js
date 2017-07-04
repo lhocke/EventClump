@@ -32,7 +32,16 @@ var posterArray = [];
 $(document).ready(getMoviePoster),function(err){
   console.log(err.code)};
 
-database.ref('nowPlaying').on('child_added', nowPlaying);
+// database.ref('nowPlaying').once("value", nowPlaying),function(err){
+//   da
+// }
+
+database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
+  console.log(err.code)};
+
+database.ref('nowPlaying').once('child_changed', nowPlaying),function(err){
+  console.log(err.code)};
+
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -48,6 +57,11 @@ function dataClear(){
 function getMoviePoster() {
   if (keyword === ""){
     keyword = currentMovies;
+    var folder = "nowPlaying/"
+  }
+  else {
+    keyword = $('#search-bar').val().trim()
+    var folder = "userSearch/"
   }
 
   // pull currently playing movies from themoviedb
@@ -60,7 +74,7 @@ function getMoviePoster() {
       var title = {id : response[i].id,
         name : response[i].title};
       movieTitle.push(title);
-      database.ref().child("nowPlaying/" + response[i].title).update({
+      database.ref().child(folder + response[i].title).update({
         title: response[i].title
       })
     }
@@ -70,72 +84,42 @@ function getMoviePoster() {
         url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
         method : "GET"
       }).done(function(res){
-        var imdbID = {imdb : res.imdb_id};
+        var imdbID = res.imdb_id;
         idStore.push(imdbID)
-        database.ref().child("nowPlaying/" + res.title).update({
+        database.ref().child(folder + res.title).update({
           imdbID : imdbID
         })
       })
     }
-
-    // database.ref().on('child_added', function(snapshot){
-    //   var id = snapshot.val().imdbID;
-    //   $.ajax({
-    //     url : "https://omdbapi.com/?apikey=40e9cece&i=" + id,
-    //     method : "GET"
-    //   }).done(function(res){
-    //     var posterURL = res.Poster;
-    //     var newTitle = res.Title;
-    //     database.ref().child("nowPlaying/" + newTitle).update({
-    //       poster : posterURL
-    //     })
-    //   })
-    // })
-
-// non-functioning
-    // for (var i = 0; i < idStore.length; i++){
-    //   var id = idStore[i].imdb
-    //   console.log(id)
-    //   $.ajax({
-    //     url : "https://omdbapi.com/?apikey=40e9cece&i=" + id,
-    //     method : "GET"
-    //   }).done(function(res){
-    //     var posterURL = res.Poster;
-    //     var newTitle = res.Title;
-    //     database.ref().child("nowPlaying/" + newTitle).update({
-    //       poster : posterURL
-    //     })
-    //   })
-    // }
-
-
-    // pull info from omdb and log to firebase
-    for (var i = 0; i < movieTitle.length; i++){
-      console.log(movieTitle[i])
-      console.log(i)
-      var name = movieTitle[i].name;
-      // var imdbID = movieTitle[i].imdbID;
-      $.ajax({
-        // url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
-        url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
-        method : "GET"
-      }).done(function(results){
-
-        var posterURL = results.Poster;
-        var newTitle = results.Title;
-        database.ref().child("nowPlaying/" + newTitle).update({
-          poster : posterURL,
-          // id : imdbID
-        })
-      })
-    }
-
   })
 }
 
+function imdbPoster(){
+    // pull info from omdb and log to firebase
+  for (var i = 0; i < idStore.length; i++){
+    // console.log(idStore[i])
+    // console.log(i)
+    var imdbID = idStore[i];
+    $.ajax({
+      url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
+      // url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
+      method : "GET"
+    }).done(function(results){
+      console.log('complete')
+      var posterURL = results.Poster;
+      var newTitle = results.Title;
+      database.ref().child("nowPlaying/" + newTitle).update({
+        poster : posterURL,
+      })
+    })
+  }
+}
+
+
 // pull information from firebase
 function nowPlaying(snap, prevChildKey){
-  // getMoviePoster;
+  // idStore = "";
+  // movieTitle = "";
   var movieDisplay = $('<tr>');
   // create image data for table
   // console.log(snap.val().title)
