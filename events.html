@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EventClump Events</title>
+	<!-- jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Bootstrap CDN-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-spy="scroll" data-target="#navbar-scroll">
+	<div id="navbar-scroll">
+		<nav class="navbar navbar-default navbar-fixed-top nav-style">
+			<div class="container-fluid">				
+				<div class="navbar-header text-center teal-back side-padding">
+					<h1 class="h1font">EventClump</h1>
+				</div>
+			      <ul class="nav navbar-nav navbar-right">
+			      	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Entertainment <span class="caret"></span></a>
+				        <ul class="dropdown-menu">
+				          <li><a href="#">Movies</a></li>
+				          <li><a href="#">Events</a></li>
+				        </ul>
+				    </li>			  		
+				  </ul>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="jumbotron">
+				<h1 id="welcome" class="text-center">Welcome</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<div class="input-group">
+		            <div class="input-group-btn search-panel">
+		                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                    <span id="search_concept"></span> <span class="caret"></span>
+		                </button>
+		                 <ul class="dropdown-menu" role="menu">
+		                      <li><a href="#">Zip Code</a></li>
+		                      <li><a href="#">City</a></li>
+		                      <li><a href="#">Date</a></li>
+		                 </ul>
+		            </div>
+		                <input type="hidden" name="search_param" value="all" id="search_param">         
+		                <input type="text" class="form-control" name="x" placeholder="Search term...">
+		                <span class="input-group-btn">
+		                 	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+		                </span>
+		        </div>
+	        </div>
+		</div>
+
+		<div class="row movie-panel">
+			<div class="col-md-12 well well-lg events-panel-main"> 
+	<!-- 				<div class="row">
+						<div class="col-md-12">
+							<h4 id="city">Movies In San Francisco</h4>
+							<hr class="cityhr">
+
+							<div class="embed-responsive embed-responsive-16by9">
+							    <iframe width="560" height="315" src="https://www.youtube.com/embed/euz-KBBfAAo" frameborder="0" allowfullscreen></iframe>
+							</div>
+							
+						</div>
+					</div> -->
+					<!-- Sub Heading -->
+					<div class="row">
+						<div class="col-md-12 currentevents" >
+							<h3>Concerts</h3>
+							<hr>
+						</div>
+					</div>
+					<!-- Gallery Starts -->
+					<div class="row" id="concerts-gallery">
+							
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/bruno-mars.png">
+										</div></a>
+										<div class="text-center performer" > Bruno Mars</div>
+									
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/shakira.jpg">
+										</div>
+									</a>
+								
+									<div class="text-center performer" > Shakira World Tour</div>
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/jimmy-buffett.jpeg">
+										</div>
+
+									</a>
+									<div class="text-center performer">Jimmy Buffett</div>
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/james-taylor.jpeg">
+										</div>
+
+									</a>
+
+									<div class="text-center performer" >James Taylor</div>
+								</div>
+							</div>
+
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/tony-bennett.jpeg">
+										</div></a>
+										<div class="text-center performer" > Tony Bennett</div>
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="movie-posters-container">
+											<img class="img-thumbnail" src="images/sufjan-stevens.jpeg">
+										</div>
+									</a>
+								
+									<div class="text-center performer" > Sufjan Stevens</div>
+								</div>
+							</div>
+					</div> <!-- End Gallery <div class="row" id="event-gallery"> -->
+
+					<!-- Comedy Sub Heading -->
+					<div class="row">
+						<div class="col-md-12 currentevents" >
+								<h3>Comedy </h3>
+								<hr>
+						</div>
+					</div>
+					<!-- End Sub Heading -->
+
+					<!-- Start  Comedy Gallery-->
+					<div class="row" id="comedy-gallery">
+
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/bruno-mars.png">
+										</div></a>
+										<div class="text-center performer" > Bruno Mars</div>
+									
+								</div>
+							</div>
+
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+
+					</div>
+					<!-- End  Comedy Gallery-->
+
+					<!-- Comedy Sub Heading -->
+					<div class="row">
+						<div class="col-md-12 currentevents" >
+								<h3>Sports </h3>
+								<hr>
+						</div>
+					</div>
+					<!-- End Sub Heading -->
+
+					<!-- Start  Comedy Gallery-->
+					<div class="row" id="sports-gallery">
+
+							<div class="col-xs-2 col-sm-2 col-md-2">
+								<div class="event-card">
+									<a  href="#">
+										<div class="event-poster-container">
+											<img class="img-thumbnail" src="images/bruno-mars.png">
+										</div></a>
+										<div class="text-center performer" > Bruno Mars</div>
+									
+								</div>
+							</div>
+
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2">
+							</div>
+
+					</div>
+					<!-- End  Comedy Gallery-->
+
+			</div>	<!-- End Event Panel<div class="col-md-12  -->
+
+
+
+		</div>
+	</div>
+	<footer class="site-footer">
+	    <p class="text-muted text-center footer">&copy;Copyright EventClump</p>
+	</footer>
+</body>
+</body>
+</html>
