@@ -60,12 +60,13 @@ function dataCheck(){
     }
 
     else {
+      console.log("first else")
       $(document).ready(getMoviePoster),function(err){
         console.log(err.code)};
-
+      console.log("dataCheck else 2")
       database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
         console.log(err.code)};
-
+      console.log("dataCheck")
       database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
         console.log(err.code)};
     }
@@ -78,6 +79,7 @@ function getMoviePoster() {
   if (keyword === ""){
     keyword = currentMovies;
     var folder = "nowPlaying/"
+    // pull currently playing movies from themoviedb
     $.ajax({
       url : "https://api.themoviedb.org/3/movie/" + keyword + "&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
       method : "GET"
@@ -87,9 +89,10 @@ function getMoviePoster() {
         var title = {id : response[i].id,
           name : response[i].title};
         movieTitle.push(title);
-        database.ref().child(folder + response[i].title).update({
-          title: response[i].title
-        })
+        // database.ref().child(folder + response[i].title).update({
+        //   title: response[i].title,
+        //   movieDBid: response[i].id
+        // })
       }
       for (var i = 0; i < movieTitle.length; i++){
         var id = movieTitle[i].id;
@@ -100,13 +103,17 @@ function getMoviePoster() {
           var imdbID = res.imdb_id;
           idStore.push(imdbID)
           database.ref().child(folder + res.title).update({
-            imdbID : imdbID
+            imdbID : imdbID,
+            title: res.title
           })
         })
       }
     })
   }
-  // if user entered a title
+  // else {
+  //   keyword = $('search-bar').val().trim()
+  //   var folder = "userSearch/"
+  //     // if user entered a title
   else {
     keyword = $('search-bar').val().trim()
     var folder = "userSearch/"
@@ -124,7 +131,7 @@ function getMoviePoster() {
       }
     })
   }
-
+  // }
 }
 // fetch movie posters using imdb id for accuracy
 function imdbPoster(){
