@@ -11,16 +11,178 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// movie variables
 var genre;
 var queryURL;
-var keyword;
+var keyword = "";
+var category;
+var location;
+var currentMovies = "now_playing?region=US&";
+var databaseExists = false;
+var movieTitle = [];
+var idStore = [];
+var posterArray = [];
 
-var eventful = "http://api.eventful.com/json/events/search?" + "&app_key=TrvGWQVsBrMhNwnd"
+// event variables
+var location = "";
+var eventType = "";
+var eventDate = "";
+var eventTime = "";
 
+// var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
+// var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
+// $(document).ready()
 
+$(document).ready(dataCheck);
 
+// reset currently playing movies at midnight
+if (moment() === moment().startOf('day')){
+  dataClear;
+}
 
-// use scrollspy on results list
+// $('#search-go').on('click', runAll)
 
-// $('body').scrollspy({ target: '#navbar-example' })
+// database reset
+function dataClear(){
+  database.ref('nowPlaying').remove();
+};
+
+// check for existing database and load page
+function dataCheck(){
+  database.ref("nowPlaying").once("value").then(function(snapshot){
+    databaseExists = snapshot.exists()
+    console.log(databaseExists)
+    if (databaseExists === true) {
+      database.ref("nowPlaying").once("value", existingDatabase),function(err){
+        console.log(err.code)};
+        console.log("second")
+    }
+
+    else {
+      $(document).ready(getMoviePoster),function(err){
+        console.log(err.code)};
+
+      database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
+        console.log(err.code)};
+
+      database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
+        console.log(err.code)};
+    }
+  })
+}
+
+// fetch movies and create database
+function getMoviePoster() {
+  // pull currently playing movies from themoviedb
+  if (keyword === ""){
+    keyword = currentMovies;
+    var folder = "nowPlaying/"
+    $.ajax({
+      url : "https://api.themoviedb.org/3/movie/" + keyword + "&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+      method : "GET"
+    }).done(function(res){
+      var response = res.results;
+      for (var i = 0; i < response.length; i++){
+        var title = {id : response[i].id,
+          name : response[i].title};
+        movieTitle.push(title);
+        database.ref().child(folder + response[i].title).update({
+          title: response[i].title
+        })
+      }
+      for (var i = 0; i < movieTitle.length; i++){
+        var id = movieTitle[i].id;
+        $.ajax({
+          url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+          method : "GET"
+        }).done(function(res){
+          var imdbID = res.imdb_id;
+          idStore.push(imdbID)
+          database.ref().child(folder + res.title).update({
+            imdbID : imdbID
+          })
+        })
+      }
+    })
+  }
+  // if user entered a title
+  else {
+    keyword = $('search-bar').val().trim()
+    var folder = "userSearch/"
+    .$ajax({
+      url: "http://www.omdbapi.com/?apikey=40e9cece&s=" + keyword,
+      method : "GET"
+    }).done(function(results){
+      for (var i = 0; i < results.length; i++){
+        var requestedMovie = {title : results[i].title,
+          imdbID : results[i].imdbID,
+          poster : results[i].Poster,
+          year : results[i].Year
+        }
+        database.ref().child().update(requestedMovie)
+      }
+    })
+  }
+
+}
+// fetch movie posters using imdb id for accuracy
+function imdbPoster(){
+  for (var i = 0; i < idStore.length; i++){
+    var imdbID = idStore[i];
+    $.ajax({
+      url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
+      // url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
+      method : "GET"
+    }).done(function(results){
+      var posterURL = results.Poster;
+      var newTitle = results.Title;
+      database.ref().child("nowPlaying/" + newTitle).update({
+        poster : posterURL,
+      })
+    })
+  }
+}
+
+// pull information from firebase to create display
+function nowPlaying(snap, prevChildKey){
+  console.log("run")
+  // idStore = "";
+  // movieTitle = "";
+  var movieDisplay = $('<tr>');
+  // create image data for table
+  // console.log(snap.val().title)
+  var moviePoster = $('<img>').attr('src', snap.val().poster);
+  moviePoster.addClass('img img-responsive');
+  var displayPoster = $('<td>').append(moviePoster);
+
+  var titleDisplay = $('<td>').append(snap.val().title);
+
+  movieDisplay.append(displayPoster, titleDisplay);
+  $('#movie-schedule').prepend(movieDisplay);
+}
+
+function existingDatabase(snapshot){
+  snapshot.forEach(function(childSnapshot){
+    // idStore = "";
+    // movieTitle = "";
+    var movieDisplay = $('<tr>');
+    // create image data for table
+    // console.log(snap.val().title)
+    var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+    moviePoster.addClass('img img-responsive');
+    var displayPoster = $('<td>').append(moviePoster);
+
+    var titleDisplay = $('<td>').append(childSnapshot.val().title);
+
+    movieDisplay.append(displayPoster, titleDisplay);
+    $('#movie-schedule').append(movieDisplay);
+  })
+}
+
+// events
+function eventPull(){
+  $.ajax({
+    url: "http://api.eventful.com/json/events/search?TrvGWQVsBrMhNwnd"
+  })
+}
