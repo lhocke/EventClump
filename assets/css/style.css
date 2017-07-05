@@ -55,7 +55,7 @@ body {
 }
 
 .navbar-right li {
-	margin-top: 9px;
+	margin: 12px 0px 7px 0px;
 }
 
 #now-playing, #events, #sports {
