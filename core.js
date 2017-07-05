@@ -36,6 +36,7 @@ if (moment() === moment().startOf('day')){
   dataClear;
 }
 
+$('#search-go').on('click', runAll)
 
 // database reset
 function dataClear(){
@@ -73,7 +74,7 @@ function getMoviePoster() {
     var folder = "nowPlaying/"
   }
   else {
-    keyword = $('#search-bar').val().trim()
+    keyword = $('search-bar').val().trim()
     var folder = "userSearch/"
   }
 
@@ -123,7 +124,6 @@ function imdbPoster(){
     })
   }
 }
-
 
 // pull information from firebase to create display
 function nowPlaying(snap, prevChildKey){
