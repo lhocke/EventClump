@@ -14,18 +14,22 @@
 	<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDPnWZ8VN8tZD-Fu3b2428gZx737yHeR9s&libraries=places"></script>
 
 </head>
-<body data-spy="scroll" data-target="#navbar-scroll">
-	<div id="navbar-scroll">
+<body>
+	<div>
 		<nav class="navbar navbar-default navbar-fixed-top nav-style">
 			<div class="container-fluid">				
 				<div class="navbar-header text-center teal-back side-padding">
-					<h1 class="h1font">EventClump</h1>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#Navbar">
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>                        
+			      	</button>
+					<h1 class="h1font"><a href="index.html">EventClump</a></h1>
 				</div>
-			      <ul class="nav navbar-nav navbar-right">
+			      <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="Navbar">
 			      	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Entertainment <span class="caret"></span></a>
 				        <ul class="dropdown-menu">
-				          <li><a href="#">Movies</a></li>
-				          <li><a href="#">Events</a></li>
+				          <li><a href="movie.html">Movies</a></li>
+				          <li><a href="events.html">Events</a></li>
 				        </ul>
 				    </li>			  		
 				  </ul>
@@ -46,9 +50,9 @@
 		                    <span id="search_concept"></span> <span class="caret"></span>
 		                </button>
 		                 <ul class="dropdown-menu" role="menu">
-		                      <li><a href="#">Zip Code</a></li>
-		                      <li><a href="#">City</a></li>
-		                      <li><a href="#">Date</a></li>
+		                      <li id="zip"><a href="#">Zip Code</a></li>
+		                      <li id="keyword"><a href="#">City</a></li>
+		                      <li id="date"><a href="#">Date</a></li>
 		                 </ul>
 		            </div>
 		                <input type="hidden" name="search_param" value="all" id="search_param">         
@@ -109,10 +113,10 @@
 				<div class="row" id="movie-gallery">
 						<div class="col-xs-6 col-md-3">
 							<div class="movie-card">
-								<a class="movie-posters-link" data-toggle="modal" data-target="#myModal" href="#myModal" movie-id="6Vtf0MszgP8">
+	
 									<div class="movie-posters-container">
-										<img class="img-thumbnail" src="images/transformers.jpg">
-									</div></a>
+										<img class="img-thumbnail" src="images/transformers.jpg" movie-id="6Vtf0MszgP8">
+									</div>
 									<div class="text-center moviename" > Transformers</div>
 									<div class="text-center rating">PG - 13</div>
 								
@@ -120,12 +124,10 @@
 						</div>
 						<div class="col-xs-6 col-md-3">
 							<div class="movie-card">
-								
-								<a class="movie-posters-link" data-toggle="modal" data-target="#myModal" href="#myModal" movie-id="IPf4rGw3XHw">
+							
 									<div class="movie-posters-container">
-										<img class="img-thumbnail" src="images/pirates-of-caribbean.jpg">
+										<img class="img-thumbnail" src="images/pirates-of-caribbean.jpg" movie-id="IPf4rGw3XHw">
 									</div>
-								</a>
 							
 								<div class="text-center moviename" > Pirates of The Caribbean</div>
 								<div class="text-center rating">PG - 13</div>
@@ -133,12 +135,10 @@
 						</div>
 						<div class="col-xs-6 col-md-3">
 							<div class="movie-card">
-								<a class="movie-posters-link" href="#">
 									<div class="movie-posters-container">
-										<img class="img-thumbnail" src="images/despicable-me.jpg">
+										<img class="img-thumbnail" src="images/despicable-me.jpg" movie-id="euz-KBBfAAo">
 									</div>
 
-								</a>
 								<div class="text-center moviename">Despicable Me3</div>
 								<div class="text-center rating">PG - 13</div>
 
@@ -146,12 +146,9 @@
 						</div>
 						<div class="col-xs-6 col-md-3">
 							<div class="movie-card">
-								<a class="movie-posters-link" href="#">
-									<div class="movie-posters-container">
-										<img class="img-thumbnail" src="images/baby-driver.jpg">
-									</div>
-
-								</a>
+								<div class="movie-posters-container">
+										<img class="img-thumbnail" src="images/baby-driver.jpg" movie-id="z2z857RSfhk">
+								</div>
 
 								<div class="text-center moviename">Baby Driver</div>
 								<div class="text-center rating">PG - 13</div>
@@ -164,7 +161,7 @@
 			</div>	<!-- <div class="col-md-8  -->
 
 
-					
+			<!-- Side Upcoming Movie Pannel Start -->
 			<div class="col-xs-4 col-sm-4 col-md-4 well well-lg movie-panel-side"> 
 				<div class="row">
 						<div class="col-xs-12 col-md-12" >
@@ -176,12 +173,12 @@
 				<div class="row">
 						<div class="col-xs-4 col-sm-6 col-md-12" >
 							<div class="movie-card">
-								<a class="movie-posters-link" data-toggle="modal" data-target="#myModal" href="#myModal" movie-id="DiTECkLZ8HM">
+					<!-- 			<a class="movie-posters-link" data-toggle="modal" data-target="#movieTrailerModal2" href="#movieTrailerModal2" movie-id="DiTECkLZ8HM"> -->
 									<div>
-										<img class="img-thumbnail" src="images/spider-man.jpg">
+										<img class="img-thumbnail" src="images/spider-man.jpg" movie-id="DiTECkLZ8HM">
 									</div>
 
-								</a>
+								<!-- </a> -->
 								<div class="text-left moviename">Spider Man</div>
 								<div class="text-left rating">PG - 13</div>
 
@@ -216,21 +213,16 @@
 							</div>
 						</div>
 				</div><!-- <div class="row" -->
-
-
-
 			</div> 
+			<!-- Side Upcoming Movie Pannel Start -->
 
 		</div>
 	</div>
 
-	<div class="trailer">
-	    <!-- Button HTML (to Trigger Modal) -->
-<!-- 	    <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Launch Demo Modal</a>
- -->	    
-	    <!-- Modal HTML -->
-	    <div id="myModal" class="modal fade">
-	        <div class="modal-dialog ">
+	<!-- Modal HTML Start-->
+	<div class="trailer"> 
+	    <div id="movieTrailerModal" class="modal fade">
+	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-header">
 	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <STRONG>X</STRONG>
@@ -244,12 +236,15 @@
 	            </div>
 	        </div>
 	    </div>
-
 	</div> 
+	<!-- Modal HTML Start End -->
+
+
 	<footer class="site-footer">
 	    <p class="text-muted text-center footer">&copy;Copyright EventClump</p>
 	</footer>
-
+	
+	<!-- Calling  JS for google maps & modal box-->
 	<script type="text/javascript" src="assets/javascript/map.js"></script>
 
 
