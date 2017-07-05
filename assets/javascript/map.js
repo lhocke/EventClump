@@ -7,7 +7,7 @@ var service ="";
 var infoWindow ;
 var hostnameRegexp = new RegExp('^https?://.+?/');
 
-	//-- Find current coords
+	///-- Find current coords
 	//getLocation();
 
 	function getLocation() {
@@ -186,7 +186,7 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 		  }
 	} // -- end buildIWContent
 
-	 /* Get iframe src attribute value i.e. YouTube video url
+	/* Get iframe src attribute value i.e. YouTube video url
     and store it in a variable */
     // var url = $("#movietrailer").attr('src');
     
@@ -194,23 +194,38 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 	//load google map when page load complete
 	google.maps.event.addDomListener(window,'load',initMap());
 
+	/* Modal Box for movie trailer Starts --*/
+
+	$(document).on("click",".img-thumbnail", function() {
+		console.log("You click me");
+
+		//get assign movie id
+		var mID = $(this).attr("movie-id");
+
+		console.log("Movie Id -->"+mID);
+
+		$("#movieTrailerModal").on('show.bs.modal', function(){
+			// 	debugger;
+
+			//Build Youtube URL for movie trailer
+			var url = "https://www.youtube.com/embed/"+mID;
+			$("#movietrailer").attr('src', url);
+
+			console.log("Iframe  -->"+$("#movietrailer"));
+		});
+
+		$('#movieTrailerModal').modal('show');
+
+	});
+
 
 	/* Assign empty url value to the iframe src attribute when
 	modal hide, which stop the video playing */
-	$("#myModal").on('hide.bs.modal', function(){
-		
+	$("#movieTrailerModal").on('hide.bs.modal', function(){
+		console.log("You click close me");
+
 	    $("#movietrailer").attr('src', '');
-	    console.log("src after clear  -->"+$(".movie-posters-link").attr("movie-id"));
-	});
 	
-	/* Assign the initially stored url back to the iframe src
-	attribute when modal is displayed again */
-	$("#myModal").on('show.bs.modal', function(){
-		//build youtube movie trailer link
-		var url = "https://www.youtube.com/embed/"+$(".movie-posters-link").attr("movie-id");
-		console.log("movie-id  -->"+url);
-
-	    $("#movietrailer").attr('src', url);
 	});
 
-
+	/* Modal Box for movie trailer End  --*/
