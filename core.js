@@ -11,6 +11,7 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// movie variables
 var genre;
 var queryURL;
 var keyword = "";
@@ -20,9 +21,13 @@ var currentMovies = "now_playing?region=US&";
 var databaseExists = false;
 var movieTitle = [];
 var idStore = [];
-// var movieTitle = {};
-// var x = 0;
 var posterArray = [];
+
+// event variables
+var location = "";
+var eventType = "";
+var eventDate = "";
+var eventTime = "";
 
 // var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
 // var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
@@ -70,6 +75,7 @@ function dataCheck(){
 
 // fetch movies and create database
 function getMoviePoster() {
+  // pull currently playing movies from themoviedb
   if (keyword === ""){
     keyword = currentMovies;
     var folder = "nowPlaying/"
@@ -178,5 +184,12 @@ function existingDatabase(snapshot){
 
     movieDisplay.append(displayPoster, titleDisplay);
     $('#movie-schedule').append(movieDisplay);
+  })
+}
+
+// events
+function eventPull(){
+  $.ajax({
+    url: "http://api.eventful.com/json/events/search?TrvGWQVsBrMhNwnd"
   })
 }

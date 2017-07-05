@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
-<body data-spy="scroll" data-target="#navbar-scroll">
+<body>
 	<div id="navbar-scroll">
 		<nav class="navbar navbar-default navbar-fixed-top nav-style">
 			<div class="container-fluid">				
@@ -20,8 +20,8 @@
 			      <ul class="nav navbar-nav navbar-right">
 			      	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Entertainment <span class="caret"></span></a>
 				        <ul class="dropdown-menu">
-				          <li><a href="#">Movies</a></li>
-				          <li><a href="#">Events</a></li>
+				          <li><a href="movie.html">Movies</a></li>
+				          <li><a href="events.html">Events</a></li>
 				        </ul>
 				    </li>			  		
 				  </ul>
@@ -42,13 +42,13 @@
 	                    	<span id="search_concept"></span> <span class="caret"></span>
 	                    </button>
 	                    <ul class="dropdown-menu" role="menu">
-	                      <li><a href="#">Zip Code</a></li>
-	                      <li><a href="#">City</a></li>
-	                      <li><a href="#">Date</a></li>
+	                      <li id="zip"><a href="#">Zip Code</a></li>
+	                      <li id="keyword"><a href="#">City</a></li>
+	                      <li id="date"><a href="#">Date</a></li>
 	                    </ul>
 	                </div>
 	                <input type="hidden" name="search_param" value="all" id="search_param">         
-	                <input type="text" class="form-control" id="search-bar" name="x" placeholder="Search term...">
+	                <input type="text" id="search-bar" class="form-control" name="x" placeholder="Search term...">
 	                <span class="input-group-btn">
 	                    <button class="btn btn-default" type="button" id="search-go"><span class="glyphicon glyphicon-search"></span></button>
 	                </span>
@@ -57,34 +57,34 @@
 		</div>
 		<br>
 		<div class="row max-height">
-			<div id="now-playing" class="panel panel-info col-sm-4">
+			<div class="panel panel-info col-sm-4">
 				<div class="panel-heading">
                 	<h1 class="panel-movies text-center">Movies</h1>
             	</div>
-				<div class="panel-body">
-                <table class="table table-striped" id="scroll">
+				<div id="now-playing" class="panel-body">
+                <table class="table table-striped">
                     <tbody id="movie-schedule">
                     </tbody>
                 </table>
             	</div>
 			</div>
-			<div id="events" class="panel panel-info col-sm-4">
+			<div class="panel panel-info col-sm-4">
 				<div class="panel-heading">
                 	<h1 class="panel-events text-center">Events</h1>
             	</div>
-				<div class="panel-body">
-                <table class="table table-striped" id="scroll">
+				<div id="events" class="panel-body">
+                <table class="table table-striped">
                     <tbody id="events-schedule">
                     </tbody>
                 </table>
             	</div>
 			</div>
-			<div id="sports" class="panel panel-info col-sm-4">
+			<div class="panel panel-info col-sm-4">
 				<div class="panel-heading">
                 	<h1 class="panel-sports text-center">Sports</h1>
             	</div>
-				<div class="panel-body">
-                <table class="table table-striped" id="scroll">
+				<div id="sports" class="panel-body">
+                <table class="table table-striped">
                     <tbody id="sports-schedule">
                     </tbody>
                 </table>

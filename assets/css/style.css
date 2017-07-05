@@ -8,7 +8,7 @@ html {
 
 body {
 	height:100%;
-  	background: url("../images/background.jpg");
+  background: url("../images/background.jpg");
 }
 
 .jumbotron {
@@ -58,16 +58,9 @@ body {
 	margin-top: 9px;
 }
 
-#now-playing {
+#now-playing, #events, #sports {
 	height: 400px;
-}
-
-#events {
-	height: 400px;
-}
-
-#sports {
-	height: 400px;
+	overflow-y: scroll;
 }
 
 .site-footer, .container:after {
@@ -79,17 +72,246 @@ body {
 	border-top: solid 4px #4aaaa5;
 	background: #666666;
 }
-/*#footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 60px;
-	border-top: solid 4px #4aaaa5;
-	background: #666666;
-}
+
 /*Styling the footer text*/
 .footer {
-	padding-top: 23px;
+	padding-top: 10px;
 	color: #cccccc;
 }
+
+/* Styles for Movie.html  Start*/
+
+.movie-panel {
+	margin-top: 20px;
+}
+
+.movie-panel-main {
+	margin-right: 10px;
+	width: 75%;
+	background-color: #fff;
+}
+
+.movie-panel-side {
+	width: 23%;
+}
+
+.movie-card {
+    position: relative;
+    overflow: visible;
+    margin-bottom: 1.875rem;
+    margin-top: 6px;
+}
+
+
+.movie-posters-link {
+    height: 100%;
+    display: block;
+}
+
+.movie-posters-container {
+    border-bottom: 1px solid #e1e1e1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#movie-gallery {
+	margin-top: 20px;
+}
+
+
+.img-thumbnail {
+	border:1px solid #000307
+	
+}
+
+#nowplaying h3 {
+	font-size: 18px
+}
+
+#nowplaying hr {
+	height: 10px;
+	border: 0;
+	margin-top:0;
+	margin-bottom: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.cityhr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#city {
+	margin-top: 0;
+}
+
+.moviename {
+
+	text-shadow: 2px 2px 4px #b7b8bc;
+	font-size: 15px;
+	font-weight: 900;
+}
+
+.rating {
+	font-size: 10px;
+}
+
+h4 {
+	margin-top: 0;
+}
+
+
+
+/* Styles for Movie.html  Ends */
+
+/*Events.html Styles*/
+.events-panel-main {
+	margin-right: 10px;
+	width: 100%;
+	background-color: #fff;
+	padding-top: 0;
+}
+
+.performer {
+
+	text-shadow: 2px 2px 4px #b7b8bc;
+	font-size: 15px;
+	font-weight: 900;
+}
+
+.event-card {
+    position: relative;
+    overflow: visible;
+    margin-bottom: 1.875rem;
+    margin-top: 6px;
+}
+
+.event-poster-container {
+    border-bottom: 1px solid #e1e1e1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+
+.currentevents h3 {
+	font-size: 18px
+}
+
+.currentevents hr {
+	height: 10px;
+	border: 0;
+	margin-top:0;
+	margin-bottom: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+/*-- End Events.html Styles*/
+
+
+@media only screen and (max-width: 991px){
+	.movie-panel-side {
+		width: 75%;
+	
+	}
+
+	.moviename {
+
+		text-shadow: 2px 2px 4px #b7b8bc;
+		font-size: 12px;
+		font-weight: 900;
+	}
+
+	.performer {
+
+	text-shadow: 2px 2px 4px #b7b8bc;
+	font-size: 12px;
+	font-weight: 900;
+	}
+}
+
+
+/*Style releated to google maps*/
+
+	#location {
+		height: 100px;
+		width: 100%;
+	}
+
+
+	table {
+	  font-size: 12px;
+	}
+	#map {
+	  width: 440px;
+	}
+	#listing {
+	  position: absolute;
+	  width: 200px;
+	  height: 470px;
+	  overflow: auto;
+	  left: 442px;
+	  top: 0px;
+	  cursor: pointer;
+	  overflow-x: hidden;
+	}
+
+
+	.placeIcon {
+	  width: 24px;
+	  height: 24px;
+	}
+	#resultsTable {
+	  border-collapse: collapse;
+	  width: 240px;
+	}
+	#rating {
+	  font-size: 13px;
+	  font-family: Arial Unicode MS;
+	}
+	.iw_table_row {
+	  height: 18px;
+	}
+	.iw_attribute_name {
+	  font-weight: bold;
+	  text-align: right;
+	}
+	.iw_table_icon {
+	  text-align: right;
+	}
+/*Google map styles end*/
+
+/* Modal Box Styles*/
+
+.trailer{
+    margin: 20px;
+}
+.modal-content iframe{
+    margin: 0 auto;
+    display: block;
+    border-radius: 15px;
+}
+
+
+.modal-body {
+    background-color: black;
+}
+
+.modal-header {
+    background-color: #fff;
+    padding: 5px;
+    margin-right: 20px;
+}
+
+.close {
+    color:red;
+    font-weight: bolder;
+}
+
+/*End Modal*/
 
