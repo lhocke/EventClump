@@ -36,7 +36,7 @@ if (moment() === moment().startOf('day')){
   dataClear;
 }
 
-$('#search-go').on('click', runAll)
+// $('#search-go').on('click', runAll)
 
 // database reset
 function dataClear(){
@@ -55,12 +55,13 @@ function dataCheck(){
     }
 
     else {
+      console.log("first else")
       $(document).ready(getMoviePoster),function(err){
         console.log(err.code)};
-
+      console.log("dataCheck else 2")
       database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
         console.log(err.code)};
-
+      console.log("dataCheck")
       database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
         console.log(err.code)};
     }
@@ -88,9 +89,10 @@ function getMoviePoster() {
       var title = {id : response[i].id,
         name : response[i].title};
       movieTitle.push(title);
-      database.ref().child(folder + response[i].title).update({
-        title: response[i].title
-      })
+      // database.ref().child(folder + response[i].title).update({
+      //   title: response[i].title,
+      //   movieDBid: response[i].id
+      // })
     }
     for (var i = 0; i < movieTitle.length; i++){
       var id = movieTitle[i].id;
@@ -101,7 +103,8 @@ function getMoviePoster() {
         var imdbID = res.imdb_id;
         idStore.push(imdbID)
         database.ref().child(folder + res.title).update({
-          imdbID : imdbID
+          imdbID : imdbID,
+          title: res.title
         })
       })
     }
