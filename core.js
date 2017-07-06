@@ -19,22 +19,20 @@ var category;
 var currentMovies = "now_playing?region=US&";
 var databaseExists = false;
 var movieTitle = [];
+var upcomingMovies = [];
 var idStore = [];
+var upcomingIdStore =[];
 var posterArray = [];
 
 // event variables
-// var location = "";
-// var eventType = "";
 var eventDate = "";
 var eventTime = "";
-
-// var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
-// var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
 // $(document).ready()
 
 $(document).ready(movieDataCheck);
 $(document).ready(eventDataCheck);
+$(document).ready(upcomingMovieDataCheck);
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -47,6 +45,7 @@ if (moment() === moment().startOf('day')){
 function dataClear(){
   database.ref('nowPlaying').remove();
   database.ref('localEvents').remove();
+  database.ref('upcomingMovies').remove();
 }
 
 // check for existing database and load page
@@ -86,6 +85,53 @@ function eventDataCheck(){
       }
     }
   })
+}
+
+function upcomingMovieDataCheck(){
+  database.ref("upcomingMovies").once("value").then(function(snapshot){
+    databaseExists = snapshot.exists()
+    if (databaseExists === true){
+      return
+    }
+    else {
+      $(document).ready(upcomingPull);
+      database.ref("upcomingMovies").on("child_added", upcomingPoster);
+    }
+  })
+}
+
+function upcomingPull() {
+  var folder = "upcomingMovies/"
+  $.ajax({
+      url : "https://api.themoviedb.org/3/movie/upcoming?&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+      method : "GET"
+    }).done(function(res){
+      var response = res.results;
+      for (var i = 0; i < response.length; i++){
+        var title = {id : response[i].id,
+          name : response[i].title};
+        upcomingMovies.push(title);
+      }
+      console.log(upcomingMovies)
+      for (i = 0; i < upcomingMovies.length; i++){
+        var id = upcomingMovies[i].id;
+        $.ajax({
+          url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+          method : "GET"
+        }).done(function(res){
+          var imdbID = res.imdb_id;
+          var newURL = "imdb.com/title/" + imdbID;
+        // console.log(newURL)
+          upcomingIdStore.push(imdbID);
+          database.ref().child(folder + res.title).update({
+            imdbID : imdbID,
+            title : res.title,
+            movieURL : newURL
+          });
+        });
+      }
+    });
+
 }
 
 // fetch movies and create database
@@ -152,16 +198,37 @@ function getMoviePoster() {
 }
 // fetch movie posters using imdb id for accuracy
 function imdbPoster(){
-  for (var i = 0; i < idStore.length; i++){
-    var imdbID = idStore[i];
+  for (var x = 0; x < idStore.length; x++){
+    var imdbID = idStore[x];
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       method : "GET"
     }).done(function(results){
+      var rating = results.Rated
       var posterURL = results.Poster;
       var newTitle = results.Title;
       database.ref().child("nowPlaying/" + newTitle).update({
         poster : posterURL,
+        rating : rating
+      });
+    });
+  }
+}
+
+function upcomingPoster() {
+  for (var x = 0; x < upcomingIdStore.length; x++){
+    var imdbID = upcomingIdStore[x];
+    console.log(upcomingIdStore[x])
+    $.ajax({
+      url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
+      method : "GET"
+    }).done(function(results){
+      var rating = results.Rated
+      var posterURL = results.Poster;
+      var newTitle = results.Title;
+      database.ref().child("upcomingMovies/" + newTitle).update({
+        poster : posterURL,
+        rating : rating
       });
     });
   }
@@ -240,7 +307,7 @@ function existingEventDatabase(snapshot) {
     var eventShow = $('<tr>');
     var name = childSnapshot.val().name;
     var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
-    eventLink.attr('id','list')
+    eventLink.attr('id','list');
     var eventName = $('<td>').append(eventLink);
     eventName.attr('id','event-name');
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
