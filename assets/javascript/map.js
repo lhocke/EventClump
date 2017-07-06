@@ -1,14 +1,66 @@
 
-var latitude = 37.7927728;
-var longitude = -122.409847;
+//var latitude = 37.7927728;
+//var longitude = -122.409847;
 
+var latitude ="";
+var longitude ="";
+var country ="US";
 var markers =[];
 var service ="";
 var infoWindow ;
 var hostnameRegexp = new RegExp('^https?://.+?/');
 
-	///-- Find current coords
-	//getLocation();
+	///-- Find current coords on page load
+	getLocation();
+
+	//if the user enter City or Zip Code
+
+	$("#search_button").on("click",function(){
+		
+		var searchTerm = $(".form-control").val();
+
+		if(searchTerm !== ""){
+			
+			console.log("Search-->"+searchTerm);
+
+			//Execute function to find relavant Geco codes and create map
+			getGeoCoords(searchTerm);
+		}
+		else {
+			console.log("Empty Search");
+		}
+
+	});
+
+
+	//getGeoCoords("07/06/2017");
+
+
+	// Following function to get lat and long coords for a given city or zip code;
+	function getGeoCoords (prefLocation ){
+
+	    var geocoder =  new google.maps.Geocoder();
+	    geocoder.geocode( { 'address':prefLocation+','+country}, function(results, status) {
+		    if (status == google.maps.GeocoderStatus.OK) {
+		        latitude = results[0].geometry.location.lat();
+		        longitude = results[0].geometry.location.lng();
+		        console.log("Lat -->"+latitude+"Long -->"+longitude);
+		        
+		        initMap();
+		                
+		    } 
+		    else {
+		          console.log("Something got wrong " + status);
+		          latitude = 0;
+		          longitude = 0;
+
+		          //if there is no coordinates for customer entry activate Geolocation
+		          getLocation();
+		        }
+	    });
+
+	} // --- EndgetGeoCoords 
+
 
 	function getLocation() {
 	  	
@@ -34,10 +86,12 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 	  		navigator.geolocation.getCurrentPosition(success, error);
 	}
 
+
 	//Google Map Function
 
 	function initMap() {
-			
+
+
 			//map position
 			var center = {lat:latitude, lng:longitude};
 
@@ -88,30 +142,6 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 
 
 
-		    // function createMarker(place) {
-		    // 	console.log( "No of times ");
-			   //  var placeLoc = place.geometry.location;
-			   //  var marker = new google.maps.Marker({
-			   //      map: map,
-			   //  	//position: place.geometry.location
-
-			   //  	place: {
-			   //  	        placeId:place.place_id,
-			   //  	        location:place.geometry.location
-			   //  	      },
-
-			   //  	icon:'https://maps.gstatic.com/mapfiles/ms2/micons/movies.png',
-			   //  	animation: google.maps.Animation.DROP
-			   //    });
-
-			   //  google.maps.event.addListener(marker, 'click', function() {
-			   //    infowindow.setContent(place.name);
-			   //    infowindow.open(map, this);
-			   //  });
-
-
-		    //  }
-
 		    //set time out function to delay displaying markers
 		    function dropMarker(i) {
 		       return function() {
@@ -135,6 +165,7 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 
 	}// --- initMap()end 
 
+	
 	// Load the place information into the HTML elements used by the info window.
 	function buildIWContent(place) {
 		console.log(place.name);
@@ -186,13 +217,10 @@ var hostnameRegexp = new RegExp('^https?://.+?/');
 		  }
 	} // -- end buildIWContent
 
-	/* Get iframe src attribute value i.e. YouTube video url
-    and store it in a variable */
-    // var url = $("#movietrailer").attr('src');
-    
+
 
 	//load google map when page load complete
-	google.maps.event.addDomListener(window,'load',initMap());
+	//google.maps.event.addDomListener(window,'load',initMap());
 
 	/* Modal Box for movie trailer Starts --*/
 
