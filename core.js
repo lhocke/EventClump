@@ -19,7 +19,7 @@ var category;
 var currentMovies = "now_playing?region=US&";
 var databaseExists = false;
 var movieTitle = [];
-var upcomingMovieTitle = [];
+var upcomingMovies = [];
 var idStore = [];
 var upcomingIdStore =[];
 var posterArray = [];
@@ -110,10 +110,11 @@ function upcomingPull() {
       for (var i = 0; i < response.length; i++){
         var title = {id : response[i].id,
           name : response[i].title};
-        upcomingMovieTitle.push(title);
+        upcomingMovies.push(title);
       }
-      for (i = 0; i < upcomingMovieTitle.length; i++){
-        var id = upcomingMovieTitle[i].id;
+      console.log(upcomingMovies)
+      for (i = 0; i < upcomingMovies.length; i++){
+        var id = upcomingMovies[i].id;
         $.ajax({
           url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
           method : "GET"
@@ -217,6 +218,7 @@ function imdbPoster(){
 function upcomingPoster() {
   for (var x = 0; x < upcomingIdStore.length; x++){
     var imdbID = upcomingIdStore[x];
+    console.log(upcomingIdStore[x])
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       method : "GET"
