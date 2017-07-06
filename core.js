@@ -216,7 +216,7 @@ function eventPull(){
       start = moment(start).format("YYYY-MM-DD h:mm a")
       // debugger
       // date = moment(events[i].start.local.format);
-      database.ref().child(folder + name).update({
+      database.ref().child(folder + "event" + i).update({
         name : name,
         url: events[i].url,
         startTime : start
