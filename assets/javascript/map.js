@@ -243,6 +243,7 @@ function upcomingMovieDatabase() {
       var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title + '</div>');
       var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating + '</div>');
       movieCard.append(movieDiv,movieTitle,movieRating);
+      console.log(movieCard);
       movieDisplay.append(movieCard);
       $('#upcoming-movies').append(movieDisplay);
     });
