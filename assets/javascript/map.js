@@ -232,7 +232,7 @@ $("#movieTrailerModal").on('hide.bs.modal', function(){
 /* Modal Box for movie trailer End  --*/
 
 function upcomingMovieDatabase() {
-  database.ref(upcomingMovies).once("value").then(function(snapshot){
+  database.ref("upcomingMovies").once("value").then(function(snapshot){
     snapshot.forEach(function(childSnapshot){
       var movieDisplay = $('<div class="col-xs-4 col-sm-6 col-md-12">');
       var movieCard = $('<div class="movie-card">');
@@ -240,8 +240,8 @@ function upcomingMovieDatabase() {
       var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
       moviePoster.addClass('img-thumbnail');
       movieDiv.append(moviePoster);
-      var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title);
-      var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating);
+      var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title + '</div>');
+      var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating + '</div>');
       movieCard.append(movieDiv,movieTitle,movieRating);
       movieDisplay.append(movieCard);
       $('#upcoming-movies').append(movieDisplay);
