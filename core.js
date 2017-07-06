@@ -33,7 +33,8 @@ var eventTime = "";
 
 // $(document).ready()
 
-$(document).ready(dataCheck);
+$(document).ready(movieDataCheck);
+$(document).ready(eventDataCheck);
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -48,30 +49,41 @@ function dataClear(){
 }
 
 // check for existing database and load page
-function dataCheck(){
+function movieDataCheck(){
   database.ref("nowPlaying").once("value").then(function(snapshot){
     databaseExists = snapshot.exists();
     console.log(databaseExists);
     if (databaseExists === true) {
-      database.ref("nowPlaying").once("value", existingDatabase),function(err){
-        console.log(err.code)};
+      database.ref("nowPlaying").once("value", existingMovieDatabase);
         console.log("second");
     }
 
     else {
       console.log("first else");
-      $(document).ready(getMoviePoster),function(err){
-        console.log(err.code)};
+      $(document).ready(getMoviePoster);
       console.log("dataCheck else 2");
-      database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
-        console.log(err.code)};
+      database.ref('nowPlaying').on('child_added', imdbPoster);
       console.log("dataCheck");
-      database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
-        console.log(err.code)};
+      database.ref('nowPlaying/').on("child_changed", nowPlaying);
     }
   })
+}
+
+function eventDataCheck(){
   database.ref("localEvents").once("value").then(function(snapshot){
     databaseExists = snapshot.exists()
+    if (databaseExists === true){
+      database.ref("localEvents").once("value", existingEventDatabase),function(err){
+        console.log(err.code)
+      };
+    }
+
+    else {
+      $(document).ready(eventPull);
+      database.ref("localEvents").on("child_added", eventShow),function(err){
+        console.log(err.code)
+      }
+    }
   })
 }
 
@@ -167,7 +179,7 @@ function nowPlaying(snap, prevChildKey){
   $('#movie-schedule').prepend(movieDisplay);
 }
 
-function existingDatabase(snapshot){
+function existingMovieDatabase(snapshot){
   snapshot.forEach(function(childSnapshot){
     // idStore = "";
     // movieTitle = "";
@@ -207,6 +219,12 @@ function eventPull(){
 
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
-  
+  var eventName = $('<td>').append(snap.val().name);
+  var eventTime = $('<td>').append(snap.val().startTime);
+  eventShow.append(eventName,eventTime);
+  $('#events-schedule').append(eventShow);
+}
 
+function existingEventDatabase() {
+  console.log("eventsExist")
 }
