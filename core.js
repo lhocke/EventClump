@@ -113,12 +113,12 @@ function getMoviePoster() {
         }).done(function(res){
           var imdbID = res.imdb_id;
           var newURL = "imdb.com/showtimes/title/" + imdbID + "?date=" + moment().format("YYYY-MM-DD");
-        console.log(newURL)
+        // console.log(newURL)
           idStore.push(imdbID);
           database.ref().child(folder + res.title).update({
             imdbID : imdbID,
             title : res.title,
-            url : newURL
+            showtimesURL : newURL
           });
         });
       }
@@ -136,15 +136,15 @@ function getMoviePoster() {
       method : "GET"
     }).done(function(results){
       for (var i = 0; i < results.length; i++){
-        console.log(results[i])
-        var newURL = "imdb.com/showtimes/title/" + results.imdbID + "?date=" + moment().year(year).month(month).date(day);
-        console.log(newURL)
+        // console.log(results[i])
+        var newURL = "imdb.com/showtimes/title/" + results.imdbID + "?date=" + moment().format("YYYY-MM-DD");
+        // console.log(newURL)
         database.ref().child(folder + results.title).update({
           title : results.title,
           imdbID : results.imdbID,
           poster : results.Poster,
           year : results.Year,
-          url : newURL
+          showtimesURL : newURL
         });
       }
     });
@@ -174,7 +174,7 @@ function nowPlaying(snap, prevChildKey){
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
-  movieURL = $('<a href="https://' + snap.val().url + '">' + snap.val().title + '</href>')
+  movieURL = $('<a href="http://' + snap.val().showtimesURL + '">' + snap.val().title + '</href>')
   var titleDisplay = $('<td>').append(movieURL);
   titleDisplay.attr('id','list')
   movieDisplay.append(displayPoster, titleDisplay);
@@ -187,7 +187,7 @@ function existingMovieDatabase(snapshot){
     var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
     moviePoster.addClass('img img-responsive');
     var displayPoster = $('<td>').append(moviePoster);
-    movieURL = $('<a href="https://' + childSnapshot.val().url + '">' + childSnapshot.val().title + '</href>')
+    movieURL = $('<a href="http://' + childSnapshot.val().showtimesURL + '">' + childSnapshot.val().title + '</href>')
     var titleDisplay = $('<td>').append(movieURL);
     titleDisplay.attr('id','list')
     movieDisplay.append(displayPoster, titleDisplay);
@@ -223,7 +223,9 @@ function eventDisplay(snap, prevChildKey){
   var eventLink = $('<a href="' + snap.val().url + '">' + snap.val().name + '</href>');
   eventLink.attr('id','list')
   var eventName = $('<td>').append(eventLink);
+  eventName.attr('id','event-name');
   var eventTime = $('<td>').append(snap.val().startTime);
+  eventTime.attr('id','event-time');
   eventShow.append(eventName,eventTime);
   $('#events-schedule').append(eventShow);
 }
@@ -235,8 +237,9 @@ function existingEventDatabase(snapshot) {
     var name = childSnapshot.val().name;
     var eventLink = $('<a href="' + childSnapshot.val().url + '" id="list">' + name + '</href>');
     var eventName = $('<td>').append(eventLink);
-    // eventLink.attr('id','listing')
+    eventName.attr('id','event-name');
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
+    eventTime.attr('id','event-time');
     eventShow.append(eventName, eventTime);
     $('#events-schedule').append(eventShow);
   })
