@@ -133,16 +133,18 @@ function getMoviePoster() {
       method : "GET"
     }).done(function(results){
       for (var i = 0; i < results.length; i++){
+        var newURL = "imdb.com/showtimes/title/" + results.imdbID + "?date=" + moment().year(year).month(month).date(day);
+        console.log(newURL)
         database.ref().child(folder + results.title).update({
           title : results.title,
           imdbID : results.imdbID,
           poster : results.Poster,
-          year : results.Year
+          year : results.Year,
+          url : newURL
         });
       }
     });
   }
-  // }
 }
 // fetch movie posters using imdb id for accuracy
 function imdbPoster(){
@@ -150,7 +152,6 @@ function imdbPoster(){
     var imdbID = idStore[i];
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
-      // url : "https://omdbapi.com/?apikey=40e9cece&t=" + name,
       method : "GET"
     }).done(function(results){
       var posterURL = results.Poster;
@@ -165,36 +166,25 @@ function imdbPoster(){
 // pull information from firebase to create display
 function nowPlaying(snap, prevChildKey){
   console.log("run");
-  // idStore = "";
-  // movieTitle = "";
   var movieDisplay = $('<tr>');
-  // create image data for table
-  // console.log(snap.val().title)
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
-  // titleLink = $('<a href=' + snap.val().url)
   var titleDisplay = $('<td>').append(snap.val().title);
-  titleDisplay.attr('id','listing')
-
+  titleDisplay.attr('id','list')
   movieDisplay.append(displayPoster, titleDisplay);
   $('#movie-schedule').prepend(movieDisplay);
 }
 
 function existingMovieDatabase(snapshot){
   snapshot.forEach(function(childSnapshot){
-    // idStore = "";
-    // movieTitle = "";
     var movieDisplay = $('<tr>');
-    // create image data for table
-    // console.log(snap.val().title)
     var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
     moviePoster.addClass('img img-responsive');
     var displayPoster = $('<td>').append(moviePoster);
-
-    var titleDisplay = $('<td>').append(childSnapshot.val().title);
-    titleDisplay.attr('id','listing')
-
+    var movieURL = $('<a href="' + childSnapshot.val().imdbID + '">' + childSnapshot.val().title + '</href>')
+    var titleDisplay = $('<td>').append(movieURL);
+    titleDisplay.attr('id','list')
     movieDisplay.append(displayPoster, titleDisplay);
     $('#movie-schedule').append(movieDisplay);
   });
@@ -211,14 +201,9 @@ function eventPull(){
     events = res.events;
     for (var i = 0; i < events.length; i++){
       console.log(events[i])
-      // debugger
       var name = events[i].name.text
-      // debugger
       var start = events[i].start.local;
-      // debugger
       start = moment(start).format("YYYY-MM-DD h:mm a")
-      // debugger
-      // date = moment(events[i].start.local.format);
       database.ref().child(folder + "event" + i).update({
         name : name,
         url : events[i].url,
@@ -230,8 +215,8 @@ function eventPull(){
 
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
-  var eventLink = $('<a href=' + snap.val().url + '>' + snap.val().name + '</href>');
-  eventLink.attr('id','listing')
+  var eventLink = $('<a href="' + snap.val().url + '">' + snap.val().name + '</href>');
+  eventLink.attr('id','list')
   var eventName = $('<td>').append(eventLink);
   var eventTime = $('<td>').append(snap.val().startTime);
   eventShow.append(eventName,eventTime);
@@ -242,13 +227,11 @@ function existingEventDatabase(snapshot) {
   console.log("eventsExist")
     snapshot.forEach(function(childSnapshot){
     var eventShow = $('<tr>');
-    console.log(childSnapshot.val().name);
     var name = childSnapshot.val().name;
-    var eventLink = $('<a href=' + childSnapshot.val().url + '>' + name + '</href>');
+    var eventLink = $('<a href="' + childSnapshot.val().url + '" id="list">' + name + '</href>');
     var eventName = $('<td>').append(eventLink);
-    eventLink.attr('id','listing')
+    // eventLink.attr('id','listing')
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
-
     eventShow.append(eventName, eventTime);
     $('#events-schedule').append(eventShow);
   })
