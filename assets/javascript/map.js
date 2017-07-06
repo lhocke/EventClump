@@ -30,6 +30,7 @@ var posterArray = [];
 getLocation();
 //if the user enter City or Zip Code
 $(document).ready(upcomingMovieDatabase);
+$(document).ready(currentMovieDatabase);
 
 $("#search_button").on("click",function(){
   var searchTerm = $(".form-control").val();
@@ -248,4 +249,23 @@ function upcomingMovieDatabase() {
       $('#upcoming-movies').append(movieDisplay);
     });
   })
+}
+
+function currentMovieDatabase() {
+  database.ref("nowPlaying").once("value").then(function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        var movieDisplay = $('<div>');
+        var movieCard = $('<div class="movie-card">');
+        var movieDiv = $('<div class="movie-posters-container">');
+        var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+        moviePoster.addClass('img-thumbnail');
+        movieDiv.append(moviePoster);
+        var movieTitle = $('<div class="text-center moviename">' + childSnapshot.val().title + '</div>');
+        var movieRating = $('<div class="text-center rating">' + childSnapshot.val().rating + '</div>');
+        movieCard.append(movieDiv,movieTitle,movieRating);
+        console.log(movieCard);
+        movieDisplay.append(movieCard);
+        $('#movie-gallery').append(movieDisplay);
+      });
+    })
 }
