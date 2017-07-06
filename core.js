@@ -53,18 +53,18 @@ function dataClear(){
 function movieDataCheck(){
   database.ref("nowPlaying").once("value").then(function(snapshot){
     databaseExists = snapshot.exists();
-    console.log(databaseExists);
+    // console.log(databaseExists);
     if (databaseExists === true) {
       database.ref("nowPlaying").once("value", existingMovieDatabase);
-        console.log("second");
+        // console.log("second");
     }
 
     else {
-      console.log("first else");
+      // console.log("first else");
       $(document).ready(getMoviePoster);
-      console.log("dataCheck else 2");
+      // console.log("dataCheck else 2");
       database.ref('nowPlaying').on('child_added', imdbPoster);
-      console.log("dataCheck");
+      // console.log("dataCheck");
       database.ref('nowPlaying/').on("child_changed", nowPlaying);
     }
   })
@@ -112,10 +112,13 @@ function getMoviePoster() {
           method : "GET"
         }).done(function(res){
           var imdbID = res.imdb_id;
+          var newURL = "imdb.com/showtimes/title/" + imdbID + "?date=" + moment().format("YYYY-MM-DD");
+        console.log(newURL)
           idStore.push(imdbID);
           database.ref().child(folder + res.title).update({
             imdbID : imdbID,
-            title: res.title
+            title : res.title,
+            url : newURL
           });
         });
       }
@@ -133,6 +136,7 @@ function getMoviePoster() {
       method : "GET"
     }).done(function(results){
       for (var i = 0; i < results.length; i++){
+        console.log(results[i])
         var newURL = "imdb.com/showtimes/title/" + results.imdbID + "?date=" + moment().year(year).month(month).date(day);
         console.log(newURL)
         database.ref().child(folder + results.title).update({
@@ -165,12 +169,13 @@ function imdbPoster(){
 
 // pull information from firebase to create display
 function nowPlaying(snap, prevChildKey){
-  console.log("run");
+  // console.log("run");
   var movieDisplay = $('<tr>');
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
-  var titleDisplay = $('<td>').append(snap.val().title);
+  movieURL = $('<a href="https://' + snap.val().url + '">' + snap.val().title + '</href>')
+  var titleDisplay = $('<td>').append(movieURL);
   titleDisplay.attr('id','list')
   movieDisplay.append(displayPoster, titleDisplay);
   $('#movie-schedule').prepend(movieDisplay);
@@ -182,7 +187,7 @@ function existingMovieDatabase(snapshot){
     var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
     moviePoster.addClass('img img-responsive');
     var displayPoster = $('<td>').append(moviePoster);
-    var movieURL = $('<a href="' + childSnapshot.val().imdbID + '">' + childSnapshot.val().title + '</href>')
+    movieURL = $('<a href="https://' + childSnapshot.val().url + '">' + childSnapshot.val().title + '</href>')
     var titleDisplay = $('<td>').append(movieURL);
     titleDisplay.attr('id','list')
     movieDisplay.append(displayPoster, titleDisplay);
@@ -197,10 +202,10 @@ function eventPull(){
     url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&categories=103&price=free&location.address=Oakland+CA&location.within=25mi",
     method : "GET"
   }).done(function(res){
-    console.log(res)
+    // console.log(res)
     events = res.events;
     for (var i = 0; i < events.length; i++){
-      console.log(events[i])
+      // console.log(events[i])
       var name = events[i].name.text
       var start = events[i].start.local;
       start = moment(start).format("YYYY-MM-DD h:mm a")
@@ -224,7 +229,7 @@ function eventDisplay(snap, prevChildKey){
 }
 
 function existingEventDatabase(snapshot) {
-  console.log("eventsExist")
+  // console.log("eventsExist")
     snapshot.forEach(function(childSnapshot){
     var eventShow = $('<tr>');
     var name = childSnapshot.val().name;
