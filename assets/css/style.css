@@ -1,14 +1,16 @@
 * {
-	margin: 0;
+    margin: 0; padding: 0;
 }
 
 html {
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 body {
-	height:100%;
-  background: url("../images/background.jpg");
+    width: 100%;
+    height: 100%;
+    background: url("../images/background.jpg");
 }
 
 .jumbotron {
@@ -20,89 +22,130 @@ body {
     background-size: cover;
 }
 
+#background_video {
+    z-index: -10;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    height: 100%; width: 100%;
+}
+
+#video_cover {
+    z-index: -10;
+    position: absolute;
+    width: 100%; height: 100%;
+    background: url('../images/Concrete_Jungle.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#overlay {
+    position: absolute;
+    top: 0; right: 0; left: 0; bottom: 0;
+    background: rgba(0,0,0,0);
+}
+
 #welcome {
-	padding-top: 50px;
-	color: white;
+    padding-top: 50px;
+    color: white;
 
 }
 
 .teal-back {
-	background-color: #56e0ea;
+    background-color: #56e0ea;
 }
 
 .h1font {
-	padding: 0px 4px;
-	font-family: 'Lobster', cursive;
-	color: #ffffff;
+    padding: 0px 4px;
+    font-family: 'Lobster', cursive;
+    color: #ffffff;
+}
+
+.dropdown {
+    font-family: 'Lato', sans-serif;
 }
 
 .container-fluid {
-	background-color: #666666;
+    background-color: #666666;
 }
 
 .container {
-  min-height: 100%;
-  /* equal to footer height */
-  margin-bottom: -50px; 
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -50px; 
 }
 .container:after {
-  content: "";
-  display: block;
+    content: "";
+    display: block;
 }
 
 .navbar-right{
-	background: #56e0ea;
-	padding-bottom: 10px;
+    background: #56e0ea;
+    padding-bottom: 10px;
 }
 
 .navbar-right li {
-	margin: 12px 0px 7px 0px;
+    margin: 12px 0px 7px 0px;
 }
 
 #now-playing, #events, #sports {
-	height: 400px;
-	overflow-y: scroll;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .panel-movies, .panel-events {
-	font-weight: 100;
-	font-family: 'Amatic SC', cursive;
+    font-weight: 100;
+    font-family: 'Amatic SC', cursive;
+}
+
+#movie-title {
+    font-family: 'Shojumaru', cursive;
+    font-size: 200%;
+}
+
+#event-name {
+    width: 70%;
+}
+
+#event-time {
+    font-weight: bold;
 }
 
 #list {
-	font-family: 'Shojumaru', cursive;
+    font-family: 'Shojumaru', cursive;
 }
 
 .site-footer, .container:after {
   height: 50px; 
 }
 .site-footer {
-	bottom: 0;
-	padding-bottom: 10px;
-	border-top: solid 4px #4aaaa5;
-	background: #666666;
+    bottom: 0;
+    padding-bottom: 10px;
+    border-top: solid 4px #4aaaa5;
+    background: #666666;
 }
 
 /*Styling the footer text*/
 .footer {
-	padding-top: 10px;
-	color: #cccccc;
+    padding-top: 10px;
+    color: #cccccc;
 }
 
 /* Styles for Movie.html  Start*/
 
 .movie-panel {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 .movie-panel-main {
-	margin-right: 10px;
-	width: 75%;
-	background-color: #fff;
+    margin-right: 10px;
+    width: 75%;
+    background-color: #fff;
 }
 
 .movie-panel-side {
-	width: 23%;
+    width: 23%;
 }
 
 .movie-card {
@@ -126,25 +169,25 @@ body {
 }
 
 #movie-gallery {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 
 .img-thumbnail {
-	border:1px solid #000307
-	
+    border:1px solid #000307
+    
 }
 
 #nowplaying h3 {
-	font-size: 18px
+    font-size: 18px
 }
 
 #nowplaying hr {
-	height: 10px;
-	border: 0;
-	margin-top:0;
-	margin-bottom: 0;
-	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+    height: 10px;
+    border: 0;
+    margin-top:0;
+    margin-bottom: 0;
+    box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 
 .cityhr {
@@ -157,24 +200,24 @@ body {
 }
 
 #city {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .moviename {
 
-	text-shadow: 2px 2px 4px #b7b8bc;
-	font-family: 'Lato', sans-serif;
-	font-size: 15px;
-	font-weight: 900;
+    text-shadow: 2px 2px 4px #b7b8bc;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
 }
 
 .rating {
-	font-family: 'Lato', sans-serif;
-	font-size: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
 }
 
 h4 {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 
@@ -183,18 +226,18 @@ h4 {
 
 /*Events.html Styles*/
 .events-panel-main {
-	margin-right: 10px;
-	width: 100%;
-	background-color: #fff;
-	padding-top: 0;
+    margin-right: 10px;
+    width: 100%;
+    background-color: #fff;
+    padding-top: 0;
 }
 
 .performer {
 
-	text-shadow: 2px 2px 4px #b7b8bc;
-	font-family: 'Lato', sans-serif;
-	font-size: 15px;
-	font-weight: 900;
+    text-shadow: 2px 2px 4px #b7b8bc;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
 }
 
 .event-card {
@@ -214,89 +257,89 @@ h4 {
 
 
 .currentevents h3 {
-	font-size: 18px
+    font-size: 18px
 }
 
 .currentevents hr {
-	height: 10px;
-	border: 0;
-	margin-top:0;
-	margin-bottom: 0;
-	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+    height: 10px;
+    border: 0;
+    margin-top:0;
+    margin-bottom: 0;
+    box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 /*-- End Events.html Styles*/
 
 
 @media only screen and (max-width: 991px){
-	.movie-panel-side {
-		width: 75%;
-	
-	}
+    .movie-panel-side {
+        width: 75%;
+    
+    }
 
-	.moviename {
+    .moviename {
 
-		text-shadow: 2px 2px 4px #b7b8bc;
-		font-size: 12px;
-		font-weight: 900;
-	}
+        text-shadow: 2px 2px 4px #b7b8bc;
+        font-size: 12px;
+        font-weight: 900;
+    }
 
-	.performer {
+    .performer {
 
-	text-shadow: 2px 2px 4px #b7b8bc;
-	font-size: 12px;
-	font-weight: 900;
-	}
+    text-shadow: 2px 2px 4px #b7b8bc;
+    font-size: 12px;
+    font-weight: 900;
+    }
 }
 
 
 /*Style releated to google maps*/
 
-	#location {
-		height: 100px;
-		width: 100%;
-	}
+    #location {
+        height: 100px;
+        width: 100%;
+    }
 
 
-	table {
-	  font-size: 12px;
-	}
-	#map {
-	  width: 440px;
-	}
-	#listing {
-	  position: absolute;
-	  width: 200px;
-	  height: 470px;
-	  overflow: auto;
-	  left: 442px;
-	  top: 0px;
-	  cursor: pointer;
-	  overflow-x: hidden;
-	}
+    table {
+      font-size: 12px;
+    }
+    #map {
+      width: 440px;
+    }
+    #listing {
+      position: absolute;
+      width: 200px;
+      height: 470px;
+      overflow: auto;
+      left: 442px;
+      top: 0px;
+      cursor: pointer;
+      overflow-x: hidden;
+    }
 
 
-	.placeIcon {
-	  width: 24px;
-	  height: 24px;
-	}
-	#resultsTable {
-	  border-collapse: collapse;
-	  width: 240px;
-	}
-	#rating {
-	  font-size: 13px;
-	  font-family: Arial Unicode MS;
-	}
-	.iw_table_row {
-	  height: 18px;
-	}
-	.iw_attribute_name {
-	  font-weight: bold;
-	  text-align: right;
-	}
-	.iw_table_icon {
-	  text-align: right;
-	}
+    .placeIcon {
+      width: 24px;
+      height: 24px;
+    }
+    #resultsTable {
+      border-collapse: collapse;
+      width: 240px;
+    }
+    #rating {
+      font-size: 13px;
+      font-family: Arial Unicode MS;
+    }
+    .iw_table_row {
+      height: 18px;
+    }
+    .iw_attribute_name {
+      font-weight: bold;
+      text-align: right;
+    }
+    .iw_table_icon {
+      text-align: right;
+    }
 /*Google map styles end*/
 
 /* Modal Box Styles*/
@@ -329,6 +372,6 @@ h4 {
 /*End Modal*/
 
 #concerts-gallery, #comedy-gallery, #sports-gallery {
-	overflow-x: scroll;
+    overflow-x: scroll;
 }
 
