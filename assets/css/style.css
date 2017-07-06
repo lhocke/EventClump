@@ -64,7 +64,7 @@ body {
 	overflow-y: scroll;
 }
 
-.panel-movies, .panel-events, .panel-sports {
+.panel-movies, .panel-events {
 	font-family: 'Lato', sans-serif;
 }
 
