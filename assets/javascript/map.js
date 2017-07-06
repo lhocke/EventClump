@@ -1,3 +1,15 @@
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyA6OZkjKz0Bq7DrrmQNf87O2K1GHqHURqw",
+  authDomain: "eventclump.firebaseapp.com",
+  databaseURL: "https://eventclump.firebaseio.com",
+  projectId: "eventclump",
+  storageBucket: "",
+  messagingSenderId: "312877875089"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
 
 //var latitude = 37.7927728;
 //var longitude = -122.409847;
@@ -9,10 +21,15 @@ var markers =[];
 var service ="";
 var infoWindow ;
 var hostnameRegexp = new RegExp('^https?://.+?/');
+var databaseExists = false;
+var movieTitle = [];
+var idStore = [];
+var posterArray = [];
 
 ///-- Find current coords on page load
 getLocation();
 //if the user enter City or Zip Code
+$(document).ready(upcomingMovieDatabase);
 
 $("#search_button").on("click",function(){
   var searchTerm = $(".form-control").val();
@@ -213,3 +230,21 @@ $("#movieTrailerModal").on('hide.bs.modal', function(){
   $("#movietrailer").attr('src', '');
 });
 /* Modal Box for movie trailer End  --*/
+
+function upcomingMovieDatabase() {
+  database.ref(upcomingMovies).once("value").then(function(snapshot){
+    snapshot.forEach(function(childSnapshot){
+      var movieDisplay = $('<div class="col-xs-4 col-sm-6 col-md-12">');
+      var movieCard = $('<div class="movie-card">');
+      var movieDiv = $('<div>');
+      var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+      moviePoster.addClass('img-thumbnail');
+      movieDiv.append(moviePoster);
+      var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title);
+      var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating);
+      movieCard.append(movieDiv,movieTitle,movieRating);
+      movieDisplay.append(movieCard);
+      $('#upcoming-movies').append(movieDisplay);
+    });
+  })
+}
