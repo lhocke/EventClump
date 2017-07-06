@@ -175,6 +175,7 @@ function nowPlaying(snap, prevChildKey){
   var displayPoster = $('<td>').append(moviePoster);
   // titleLink = $('<a href=' + snap.val().url)
   var titleDisplay = $('<td>').append(snap.val().title);
+  titleDisplay.attr('id','listing')
 
   movieDisplay.append(displayPoster, titleDisplay);
   $('#movie-schedule').prepend(movieDisplay);
@@ -192,6 +193,7 @@ function existingMovieDatabase(snapshot){
     var displayPoster = $('<td>').append(moviePoster);
 
     var titleDisplay = $('<td>').append(childSnapshot.val().title);
+    titleDisplay.attr('id','listing')
 
     movieDisplay.append(displayPoster, titleDisplay);
     $('#movie-schedule').append(movieDisplay);
@@ -229,6 +231,7 @@ function eventPull(){
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
   var eventLink = $('<a href=' + snap.val().url + '>' + snap.val().name + '</href>');
+  eventLink.attr('id','listing')
   var eventName = $('<td>').append(eventLink);
   var eventTime = $('<td>').append(snap.val().startTime);
   eventShow.append(eventName,eventTime);
@@ -243,6 +246,7 @@ function existingEventDatabase(snapshot) {
     var name = childSnapshot.val().name;
     var eventLink = $('<a href=' + childSnapshot.val().url + '>' + name + '</href>');
     var eventName = $('<td>').append(eventLink);
+    eventLink.attr('id','listing')
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
 
     eventShow.append(eventName, eventTime);
