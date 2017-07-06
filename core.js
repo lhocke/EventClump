@@ -46,7 +46,7 @@ if (moment() === moment().startOf('day')){
 // database reset
 function dataClear(){
   database.ref('nowPlaying').remove();
-  database.ref('localEvents').remove()
+  database.ref('localEvents').remove();
 }
 
 // check for existing database and load page
@@ -173,7 +173,7 @@ function nowPlaying(snap, prevChildKey){
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
-
+  // titleLink = $('<a href=' + snap.val().url)
   var titleDisplay = $('<td>').append(snap.val().title);
 
   movieDisplay.append(displayPoster, titleDisplay);
@@ -219,7 +219,7 @@ function eventPull(){
       // date = moment(events[i].start.local.format);
       database.ref().child(folder + "event" + i).update({
         name : name,
-        url: events[i].url,
+        url : events[i].url,
         startTime : start
       });
     }
@@ -228,7 +228,8 @@ function eventPull(){
 
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
-  var eventName = $('<td>').append(snap.val().name);
+  var eventLink = $('<a href=' + snap.val().url + '>' + snap.val().name + '</href>');
+  var eventName = $('<td>').append(eventLink);
   var eventTime = $('<td>').append(snap.val().startTime);
   eventShow.append(eventName,eventTime);
   $('#events-schedule').append(eventShow);
@@ -238,7 +239,10 @@ function existingEventDatabase(snapshot) {
   console.log("eventsExist")
     snapshot.forEach(function(childSnapshot){
     var eventShow = $('<tr>');
-    var eventName = $('<td>').append(childSnapshot.val().name);
+    console.log(childSnapshot.val().name);
+    var name = childSnapshot.val().name;
+    var eventLink = $('<a href=' + childSnapshot.val().url + '>' + name + '</href>');
+    var eventName = $('<td>').append(eventLink);
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
 
     eventShow.append(eventName, eventTime);
