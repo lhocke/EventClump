@@ -46,6 +46,7 @@ if (moment() === moment().startOf('day')){
 // database reset
 function dataClear(){
   database.ref('nowPlaying').remove();
+  database.ref('localEvents').remove()
 }
 
 // check for existing database and load page
@@ -233,6 +234,14 @@ function eventDisplay(snap, prevChildKey){
   $('#events-schedule').append(eventShow);
 }
 
-function existingEventDatabase() {
+function existingEventDatabase(snapshot) {
   console.log("eventsExist")
+    snapshot.forEach(function(childSnapshot){
+    var eventShow = $('<tr>');
+    var eventName = $('<td>').append(childSnapshot.val().name);
+    var eventTime = $('<td>').append(childSnapshot.val().startTime);
+
+    eventShow.append(eventName, eventTime);
+    $('#events-schedule').append(eventShow);
+  })
 }
