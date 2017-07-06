@@ -65,7 +65,12 @@ body {
 }
 
 .panel-movies, .panel-events {
-	font-family: 'Lato', sans-serif;
+	font-weight: 100;
+	font-family: 'Amatic SC', cursive;
+}
+
+#list {
+	font-family: 'Shojumaru', cursive;
 }
 
 .site-footer, .container:after {
