@@ -23,7 +23,7 @@ var idStore = [];
 var posterArray = [];
 
 // event variables
-var location = "";
+// var location = "";
 var eventType = "";
 var eventDate = "";
 var eventTime = "";
@@ -80,7 +80,7 @@ function eventDataCheck(){
 
     else {
       $(document).ready(eventPull);
-      database.ref("localEvents").on("child_added", eventShow),function(err){
+      database.ref("localEvents").on("child_added", eventDisplay),function(err){
         console.log(err.code)
       }
     }
@@ -201,16 +201,24 @@ function existingMovieDatabase(snapshot){
 function eventPull(){
   var folder = "localEvents/";
   $.ajax({
-    url : "http://api.eventful.com/json/events/search?TrvGWQVsBrMhNwnd",
+    url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&categories=103&price=free&location.address=Oakland+CA&location.within=25mi",
     method : "GET"
   }).done(function(res){
+    console.log(res)
     events = res.events;
     for (var i = 0; i < events.length; i++){
-      start = moment(event[i].start.local.format("YYYY-MM-DD, h:mm a"));
-      date = moment(event[i].start.local.format);
-      database.ref().child(folder + events.name.text).update({
-        name : events.name.text,
-        url: events.url,
+      console.log(events[i])
+      // debugger
+      var name = events[i].name.text
+      // debugger
+      var start = events[i].start.local;
+      // debugger
+      start = moment(start).format("YYYY-MM-DD h:mm a")
+      // debugger
+      // date = moment(events[i].start.local.format);
+      database.ref().child(folder + name).update({
+        name : name,
+        url: events[i].url,
         startTime : start
       });
     }
