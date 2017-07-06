@@ -24,7 +24,7 @@ var posterArray = [];
 
 // event variables
 // var location = "";
-var eventType = "";
+// var eventType = "";
 var eventDate = "";
 var eventTime = "";
 
@@ -174,9 +174,11 @@ function nowPlaying(snap, prevChildKey){
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
+  displayPoster.attr('id', 'movie-poster')
   movieURL = $('<a href="http://' + snap.val().showtimesURL + '">' + snap.val().title + '</href>')
+  movieURL.attr('id', 'list')
   var titleDisplay = $('<td>').append(movieURL);
-  titleDisplay.attr('id','list')
+  titleDisplay.attr('id','movie-title')
   movieDisplay.append(displayPoster, titleDisplay);
   $('#movie-schedule').prepend(movieDisplay);
 }
@@ -187,9 +189,11 @@ function existingMovieDatabase(snapshot){
     var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
     moviePoster.addClass('img img-responsive');
     var displayPoster = $('<td>').append(moviePoster);
-    movieURL = $('<a href="http://' + childSnapshot.val().showtimesURL + '">' + childSnapshot.val().title + '</href>')
+    displayPoster.attr('id', 'movie-poster')
+    movieURL = $('<a href="http://' + childSnapshot.val().showtimesURL + '">' + childSnapshot.val().title + '</href>');
+    movieURL.attr('id', "list")
     var titleDisplay = $('<td>').append(movieURL);
-    titleDisplay.attr('id','list')
+    titleDisplay.attr('id','movie-title')
     movieDisplay.append(displayPoster, titleDisplay);
     $('#movie-schedule').append(movieDisplay);
   });
@@ -235,7 +239,8 @@ function existingEventDatabase(snapshot) {
     snapshot.forEach(function(childSnapshot){
     var eventShow = $('<tr>');
     var name = childSnapshot.val().name;
-    var eventLink = $('<a href="' + childSnapshot.val().url + '" id="list">' + name + '</href>');
+    var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
+    eventLink.attr('id','list')
     var eventName = $('<td>').append(eventLink);
     eventName.attr('id','event-name');
     var eventTime = $('<td>').append(childSnapshot.val().startTime);
