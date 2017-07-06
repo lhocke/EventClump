@@ -23,7 +23,7 @@ var idStore = [];
 var posterArray = [];
 
 // event variables
-var location = "";
+// var location = "";
 var eventType = "";
 var eventDate = "";
 var eventTime = "";
@@ -33,7 +33,8 @@ var eventTime = "";
 
 // $(document).ready()
 
-$(document).ready(dataCheck);
+$(document).ready(movieDataCheck);
+$(document).ready(eventDataCheck);
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -48,30 +49,41 @@ function dataClear(){
 }
 
 // check for existing database and load page
-function dataCheck(){
+function movieDataCheck(){
   database.ref("nowPlaying").once("value").then(function(snapshot){
     databaseExists = snapshot.exists();
     console.log(databaseExists);
     if (databaseExists === true) {
-      database.ref("nowPlaying").once("value", existingDatabase),function(err){
-        console.log(err.code)};
+      database.ref("nowPlaying").once("value", existingMovieDatabase);
         console.log("second");
     }
 
     else {
       console.log("first else");
-      $(document).ready(getMoviePoster),function(err){
-        console.log(err.code)};
+      $(document).ready(getMoviePoster);
       console.log("dataCheck else 2");
-      database.ref('nowPlaying').on('child_added', imdbPoster),function(err){
-        console.log(err.code)};
+      database.ref('nowPlaying').on('child_added', imdbPoster);
       console.log("dataCheck");
-      database.ref('nowPlaying/').on("child_changed", nowPlaying),function(err){
-        console.log(err.code)};
+      database.ref('nowPlaying/').on("child_changed", nowPlaying);
     }
   })
+}
+
+function eventDataCheck(){
   database.ref("localEvents").once("value").then(function(snapshot){
     databaseExists = snapshot.exists()
+    if (databaseExists === true){
+      database.ref("localEvents").once("value", existingEventDatabase),function(err){
+        console.log(err.code)
+      };
+    }
+
+    else {
+      $(document).ready(eventPull);
+      database.ref("localEvents").on("child_added", eventDisplay),function(err){
+        console.log(err.code)
+      }
+    }
   })
 }
 
@@ -167,7 +179,7 @@ function nowPlaying(snap, prevChildKey){
   $('#movie-schedule').prepend(movieDisplay);
 }
 
-function existingDatabase(snapshot){
+function existingMovieDatabase(snapshot){
   snapshot.forEach(function(childSnapshot){
     // idStore = "";
     // movieTitle = "";
@@ -189,16 +201,24 @@ function existingDatabase(snapshot){
 function eventPull(){
   var folder = "localEvents/";
   $.ajax({
-    url : "http://api.eventful.com/json/events/search?TrvGWQVsBrMhNwnd",
+    url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&categories=103&price=free&location.address=Oakland+CA&location.within=25mi",
     method : "GET"
   }).done(function(res){
+    console.log(res)
     events = res.events;
     for (var i = 0; i < events.length; i++){
-      start = moment(event[i].start.local.format("YYYY-MM-DD, h:mm a"));
-      date = moment(event[i].start.local.format);
-      database.ref().child(folder + events.name.text).update({
-        name : events.name.text,
-        url: events.url,
+      console.log(events[i])
+      // debugger
+      var name = events[i].name.text
+      // debugger
+      var start = events[i].start.local;
+      // debugger
+      start = moment(start).format("YYYY-MM-DD h:mm a")
+      // debugger
+      // date = moment(events[i].start.local.format);
+      database.ref().child(folder + name).update({
+        name : name,
+        url: events[i].url,
         startTime : start
       });
     }
@@ -207,6 +227,12 @@ function eventPull(){
 
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
-  
+  var eventName = $('<td>').append(snap.val().name);
+  var eventTime = $('<td>').append(snap.val().startTime);
+  eventShow.append(eventName,eventTime);
+  $('#events-schedule').append(eventShow);
+}
 
+function existingEventDatabase() {
+  console.log("eventsExist")
 }
