@@ -2,14 +2,15 @@
 <html>
 <head>
 	<title>EventClump Events</title>
-	<!-- jQuery -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 	<!-- Bootstrap CDN-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:700|Lato|Lobster|Shojumaru" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/style.css">
+
+	<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDPnWZ8VN8tZD-Fu3b2428gZx737yHeR9s&libraries=places"></script>
 </head>
 <body data-spy="scroll" data-target="#navbar-scroll">
 	<div>
@@ -63,17 +64,17 @@
 
 		<div class="row movie-panel">
 			<div class="col-md-12 well well-lg events-panel-main"> 
-	<!-- 				<div class="row">
+					<div class="row">
 						<div class="col-md-12">
-							<h4 id="city">Movies In San Francisco</h4>
+							<h4 id="city">Events In San Francisco</h4>
 							<hr class="cityhr">
 
-							<div class="embed-responsive embed-responsive-16by9">
-							    <iframe width="560" height="315" src="https://www.youtube.com/embed/euz-KBBfAAo" frameborder="0" allowfullscreen></iframe>
+							<div class="embed-responsive embed-responsive-16by9" id="location">
+
 							</div>
 							
 						</div>
-					</div> -->
+					</div>
 					<!-- Sub Heading -->
 					<div class="row">
 						<div class="col-md-12 currentevents" >
@@ -92,61 +93,6 @@
 										</div></a>
 										<div class="text-center performer" > Bruno Mars</div>
 									
-								</div>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2">
-								<div class="event-card">
-									<a  href="#">
-										<div class="event-poster-container">
-											<img class="img-thumbnail" src="images/shakira.jpg">
-										</div>
-									</a>
-								
-									<div class="text-center performer" > Shakira World Tour</div>
-								</div>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2">
-								<div class="event-card">
-									<a  href="#">
-										<div class="event-poster-container">
-											<img class="img-thumbnail" src="images/jimmy-buffett.jpeg">
-										</div>
-
-									</a>
-									<div class="text-center performer">Jimmy Buffett</div>
-								</div>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2">
-								<div class="event-card">
-									<a  href="#">
-										<div class="event-poster-container">
-											<img class="img-thumbnail" src="images/james-taylor.jpeg">
-										</div>
-
-									</a>
-
-									<div class="text-center performer" >James Taylor</div>
-								</div>
-							</div>
-
-							<div class="col-xs-2 col-sm-2 col-md-2">
-								<div class="event-card">
-									<a  href="#">
-										<div class="event-poster-container">
-											<img class="img-thumbnail" src="images/tony-bennett.jpeg">
-										</div></a>
-										<div class="text-center performer" > Tony Bennett</div>
-								</div>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2">
-								<div class="event-card">
-									<a  href="#">
-										<div class="movie-posters-container">
-											<img class="img-thumbnail" src="images/sufjan-stevens.jpeg">
-										</div>
-									</a>
-								
-									<div class="text-center performer" > Sufjan Stevens</div>
 								</div>
 							</div>
 					</div> <!-- End Gallery <div class="row" id="event-gallery"> -->
@@ -234,12 +180,18 @@
 	<footer class="site-footer">
 	    <p class="text-muted text-center footer">&copy;Copyright EventClump</p>
 	</footer>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  	<!-- jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Calling  JS for google maps & modal box-->
+	<script type="text/javascript" src="assets/javascript/map.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js'></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
- 	<!-- <script src="bideo.js"></script> -->
-  	<!-- <script src="main.js"></script> -->
-  	<script src="assets/javascript/events.js"</script>
+  <script src="assets/javascript/events.js"</script>
+ 	<script src="bideo.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
