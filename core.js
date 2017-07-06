@@ -23,13 +23,8 @@ var idStore = [];
 var posterArray = [];
 
 // event variables
-// var location = "";
-// var eventType = "";
 var eventDate = "";
 var eventTime = "";
-
-// var eventful = "http://api.eventful.com/json/events/search?" + searchParams + "&app_key=TrvGWQVsBrMhNwnd"
-// var movieDB = "https://api.themoviedb.org/3/movie/" + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac"
 
 // $(document).ready()
 
@@ -152,8 +147,8 @@ function getMoviePoster() {
 }
 // fetch movie posters using imdb id for accuracy
 function imdbPoster(){
-  for (var i = 0; i < idStore.length; i++){
-    var imdbID = idStore[i];
+  for (var x = 0; x < idStore.length; x++){
+    var imdbID = idStore[x];
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       method : "GET"
