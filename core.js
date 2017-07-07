@@ -29,9 +29,13 @@ var eventLocation = "";
 var eventDate = "";
 var eventTime = "";
 
-// $(document).ready()
+var latitude ="";
+var longitude ="";
+var country ="US";
+
+$(document).ready(getLocation);
 $(document).ready(movieDataCheck);
-$(document).ready(eventDataCheck);
+// $(document).ready(eventDataCheck);
 $(document).ready(upcomingMovieDataCheck);
 
 
@@ -71,19 +75,15 @@ function movieDataCheck(){
 }
 
 function eventDataCheck(){
+  // getLocation()
   database.ref("localEvents").once("value").then(function(snapshot){
     databaseExists = snapshot.exists()
-    if (databaseExists === true){
-      database.ref("localEvents").once("value", existingEventDatabase),function(err){
-        console.log(err.code)
-      };
+    if (databaseExists === true) {
+      database.ref("localEvents").remove()
     }
-
-    else {
-      $(document).ready(eventPull);
-      database.ref("localEvents").on("child_added", eventDisplay),function(err){
-        console.log(err.code)
-      }
+    $(document).ready(eventPull);
+    database.ref("localEvents").on("child_added", eventDisplay),function(err){
+      console.log(err.code)
     }
   })
 }
@@ -295,25 +295,32 @@ function existingMovieDatabase(snapshot){
 // events
 function eventPull(){
   var folder = "localEvents/";
-  $.ajax({
-    url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&categories=103&price=free&location.address=Oakland+CA&location.within=25mi",
-    method : "GET"
-  }).done(function(res){
-    // console.log(res)
-    events = res.events;
-    for (var i = 0; i < events.length; i++){
-      // console.log(events[i])
-      var name = events[i].name.text
-      var start = events[i].start.local;
-      start = moment(start).format("YYYY-MM-DD h:mm a")
-      database.ref().child(folder + "event" + i).update({
-        name : name,
-        url : events[i].url,
-        startTime : start
-      });
-    }
-  });
-}
+  // if (latitude === ""){
+  //   $.ajax({
+  //     url: "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&address=Oakland+CA&location.within=25mi"
+  //   })
+  // }
+  // else {
+    $.ajax({
+      url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=25mi",
+      method : "GET"
+    }).done(function(res){
+      // console.log(res)
+      events = res.events;
+      for (var i = 0; i < events.length; i++){
+        // console.log(events[i])
+        var name = events[i].name.text
+        var start = events[i].start.local;
+        start = moment(start).format("YYYY-MM-DD h:mm a")
+        database.ref().child(folder + "event" + i).update({
+          name : name,
+          url : events[i].url,
+          startTime : start
+        });
+      }
+    });
+  // };
+};
 
 function eventDisplay(snap, prevChildKey){
   var eventShow = $('<tr>');
@@ -342,3 +349,45 @@ function existingEventDatabase(snapshot) {
     $('#events-schedule').append(eventShow);
   })
 }
+
+  // Following function to get lat and long coords for a given city or zip code;
+function getGeoCoords (prefLocation ){
+  var geocoder =  new google.maps.Geocoder();
+  geocoder.geocode( { 'address':prefLocation+','+country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latitude = results[0].geometry.location.lat();
+        longitude = results[0].geometry.location.lng();
+        console.log("Lat -->"+latitude+"Long -->"+longitude);
+      } 
+    else {
+      console.log("Something got wrong " + status);
+      latitude = 0;
+      longitude = 0;
+
+      //if there is no coordinates for customer entry activate Geolocation
+      getLocation();
+    }
+  });
+} // --- EndgetGeoCoords 
+
+function getLocation() {
+    //if the Browser does not supports.
+    if(!navigator.geolocation){
+    console.log("Geolocation is not supported by this browser.");
+    return; 
+  }
+    function success(position){
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log("Lat -"+latitude+"--Long--"+longitude);
+    eventDataCheck()
+    //once coords created. Google initMap called
+    }
+    function error(){
+    console.log("Unable to retrieve your location");
+  }
+  navigator.geolocation.getCurrentPosition(success, error);
+
+}
+
+
