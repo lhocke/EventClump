@@ -40,9 +40,9 @@ $(document).ready(upcomingMovieDataCheck);
 
 
 // reset currently playing movies at midnight
-if (moment() === moment().startOf('day')){
-  dataClear();
-}
+// if (moment() === moment().startOf('day')){
+//   dataClear();
+// }
 
 // $('#search-go').on('click', runAll)
 
