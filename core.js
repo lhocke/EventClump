@@ -295,12 +295,6 @@ function existingMovieDatabase(snapshot){
 // events
 function eventPull(){
   var folder = "localEvents/";
-  // if (latitude === ""){
-  //   $.ajax({
-  //     url: "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&address=Oakland+CA&location.within=25mi"
-  //   })
-  // }
-  // else {
     $.ajax({
       url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=25mi",
       method : "GET"
@@ -319,6 +313,16 @@ function eventPull(){
         });
       }
     });
+
+    $.ajax({
+      url : "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyDPnWZ8VN8tZD-Fu3b2428gZx737yHeR9s",
+      method: "GET"
+    }).done(function(res){
+      var city = res.results[0].address_components[1].long_name;
+      database.ref().child("eventLocation").update({
+        city : city
+      })
+    })
   // };
 };
 
@@ -389,5 +393,3 @@ function getLocation() {
   navigator.geolocation.getCurrentPosition(success, error);
 
 }
-
-
