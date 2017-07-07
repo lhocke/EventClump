@@ -21,7 +21,7 @@ var databaseExists = false;
 var movieTitle = [];
 var upcomingMovies = [];
 var idStore = [];
-var upcomingIdStore =[];
+var upcomingID =[];
 var posterArray = [];
 
 // event variables
@@ -29,10 +29,10 @@ var eventDate = "";
 var eventTime = "";
 
 // $(document).ready()
-
 $(document).ready(movieDataCheck);
 $(document).ready(eventDataCheck);
 $(document).ready(upcomingMovieDataCheck);
+
 
 // reset currently playing movies at midnight
 if (moment() === moment().startOf('day')){
@@ -88,6 +88,11 @@ function eventDataCheck(){
 }
 
 function upcomingMovieDataCheck(){
+  var movieTitle = [];
+  // var upcomingMovies = [];
+  var idStore = [];
+  // var upcomingID =[];
+
   database.ref("upcomingMovies").once("value").then(function(snapshot){
     databaseExists = snapshot.exists()
     if (databaseExists === true){
@@ -95,37 +100,47 @@ function upcomingMovieDataCheck(){
     }
     else {
       $(document).ready(upcomingPull);
-      database.ref("upcomingMovies").on("child_added", upcomingPoster);
+      database.ref("upcomingMovies").on("child_added", upcomingPoster),function(err){
+        console.log(err.code);
+      }
     }
   })
 }
 
 function upcomingPull() {
+  var movieTitle = [];
+  // var upcomingMovies = [];
+  var idStore = [];
+  // var upcomingID =[];
   var folder = "upcomingMovies/"
   $.ajax({
-      url : "https://api.themoviedb.org/3/movie/upcoming?&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
+      url : "https://api.themoviedb.org/3/movie/upcoming?region=US&api_key=63f47afce4d3b7ed9971fafd26dc56ac",
       method : "GET"
-    }).done(function(res){
-      var response = res.results;
+    }).done(function(response){
+      var response = response.results;
       for (var i = 0; i < response.length; i++){
+        // console.log(response[i].title)
         var title = {id : response[i].id,
           name : response[i].title};
         upcomingMovies.push(title);
+        // console.log(upcomingMovies[i].name)
       }
-      console.log(upcomingMovies)
+
       for (i = 0; i < upcomingMovies.length; i++){
         var id = upcomingMovies[i].id;
+        // console.log(upcomingMovies[i].name);
         $.ajax({
           url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=63f47afce4d3b7ed9971fafd26dc56ac",
           method : "GET"
-        }).done(function(res){
-          var imdbID = res.imdb_id;
+        }).done(function(response){
+          var imdbID = response.imdb_id;
           var newURL = "imdb.com/title/" + imdbID;
+          // console.log(response.title)
         // console.log(newURL)
-          upcomingIdStore.push(imdbID);
-          database.ref().child(folder + res.title).update({
+          upcomingID.push(imdbID);
+          database.ref().child(folder + response.title).update({
             imdbID : imdbID,
-            title : res.title,
+            title : response.title,
             movieURL : newURL
           });
         });
@@ -182,7 +197,7 @@ function getMoviePoster() {
       method : "GET"
     }).done(function(results){
       for (var i = 0; i < results.length; i++){
-        // console.log(results[i])
+        // console.log(results[i].title)
         var newURL = "imdb.com/showtimes/title/" + results.imdbID + "?date=" + moment().format("YYYY-MM-DD");
         // console.log(newURL)
         database.ref().child(folder + results.title).update({
@@ -198,13 +213,16 @@ function getMoviePoster() {
 }
 // fetch movie posters using imdb id for accuracy
 function imdbPoster(){
+  // console.log("running")
   for (var x = 0; x < idStore.length; x++){
+    // console.log("running")
     var imdbID = idStore[x];
+    // console.log(imdbID)
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       method : "GET"
     }).done(function(results){
-      var rating = results.Rated
+      var rating = results.Rated;
       var posterURL = results.Poster;
       var newTitle = results.Title;
       database.ref().child("nowPlaying/" + newTitle).update({
@@ -216,20 +234,27 @@ function imdbPoster(){
 }
 
 function upcomingPoster() {
-  for (var x = 0; x < upcomingIdStore.length; x++){
-    var imdbID = upcomingIdStore[x];
-    console.log(upcomingIdStore[x])
+  // console.log("running")
+  // console.log(upcomingID)
+  for (var x = 0; x < upcomingID.length; x++){
+    // console.log("running")
+    var imdbID = upcomingID[x];
+    // console.log(upcomingID[x])
     $.ajax({
       url : "https://omdbapi.com/?apikey=40e9cece&i=" + imdbID,
       method : "GET"
     }).done(function(results){
-      var rating = results.Rated
+      // console.log("ran ajax")
+    // console.log(results.Poster)
+      var rating = results.Rated;
       var posterURL = results.Poster;
+      // console.log(posterURL)
       var newTitle = results.Title;
+      // console.log(newTitle)
       database.ref().child("upcomingMovies/" + newTitle).update({
         poster : posterURL,
         rating : rating
-      });
+      })
     });
   }
 }
