@@ -295,35 +295,34 @@ function existingMovieDatabase(snapshot){
 // events
 function eventPull(){
   var folder = "localEvents/";
-    $.ajax({
-      url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=25mi",
-      method : "GET"
-    }).done(function(res){
-      // console.log(res)
-      events = res.events;
-      for (var i = 0; i < events.length; i++){
-        // console.log(events[i])
-        var name = events[i].name.text
-        var start = events[i].start.local;
-        start = moment(start).format("YYYY-MM-DD h:mm a")
-        database.ref().child(folder + "event" + i).update({
-          name : name,
-          url : events[i].url,
-          startTime : start
-        });
-      }
-    });
+  $.ajax({
+    url : "https://www.eventbriteapi.com/v3/events/search/?token=QWYUE4VYFCZZZJPSYKLV&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=25mi",
+    method : "GET"
+  }).done(function(res){
+    // console.log(res)
+    events = res.events;
+    for (var i = 0; i < events.length; i++){
+      // console.log(events[i])
+      var name = events[i].name.text
+      var start = events[i].start.local;
+      start = moment(start).format("YYYY-MM-DD h:mm a")
+      database.ref().child(folder + "event" + i).update({
+        name : name,
+        url : events[i].url,
+        startTime : start
+      });
+    }
+  });
 
-    $.ajax({
-      url : "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyDPnWZ8VN8tZD-Fu3b2428gZx737yHeR9s",
-      method: "GET"
-    }).done(function(res){
-      var city = res.results[0].address_components[1].long_name;
-      database.ref().child("eventLocation").update({
-        city : city
-      })
+  $.ajax({
+    url : "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=postal_code&key=AIzaSyDPnWZ8VN8tZD-Fu3b2428gZx737yHeR9s",
+    method: "GET"
+  }).done(function(res){
+    var city = res.results[0].address_components[1].long_name;
+    database.ref().child("eventLocation").update({
+      city : city
     })
-  // };
+  })
 };
 
 function eventDisplay(snap, prevChildKey){
