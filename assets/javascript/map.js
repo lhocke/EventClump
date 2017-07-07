@@ -243,11 +243,11 @@ function upcomingMovieDatabase() {
   database.ref("upcomingMovies").once("value").then(function(snapshot){
     snapshot.forEach(function(childSnapshot){
       var poster = childSnapshot.val().poster;
-      var movieDisplay = $('<div class="col-xs-4 col-sm-6 col-md-12">');
+      var movieDisplay = $('<div class="col-sm-6 col-md-12 upcoming-display">');
       var movieCard = $('<div class="movie-card">');
       var movieDiv = $('<div>');
       var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
-      moviePoster.addClass('img-thumbnail');
+      moviePoster.addClass('img-thumbnail upcoming-image');
       movieDiv.append(moviePoster);
       var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title + '</div>');
       var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating + '</div>');
