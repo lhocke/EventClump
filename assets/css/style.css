@@ -134,7 +134,7 @@ body {
 }
 
 .theaterLocation, .eventLocation {
-    width: 75%;
+    width: 100%;
 }
 
 /* Styles for Movie.html  Start*/
@@ -302,6 +302,15 @@ h4 {
     }
     .movie-display{
         margin-left: 10%;
+    }
+
+    .upcoming-display{
+        width: 45%;
+        display: inline-block;
+    }
+
+    #upcoming-movies {
+        margin-left: 5%;
     }
 
     .moviename {
