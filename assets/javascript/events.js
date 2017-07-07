@@ -23,19 +23,26 @@ function dataClear(){
 // existingEventDatabase()
 function existingEventDatabase() {
 	console.log("running")
+	database.ref("eventLocation").once("value").then(function(snap){
+	  var city = snap.val().city
+	  console.log(city)
+	  $('#city').html("Events Near " + city);
+	})
 	database.ref("localEvents").once("value").then(function(snapshot){
-    console.log("eventsExist")
 	  snapshot.forEach(function(childSnapshot){
-	  var eventShow = $('<div class="row">');
-	  var name = childSnapshot.val().name;
-	  var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
-	  eventLink.attr('id','list');
-	  var eventName = $('<div>').append(eventLink);
-	  eventName.attr('id','event-name');
-	  var eventTime = $('<div>').append(childSnapshot.val().startTime);
-	  eventTime.attr('id','event-time');
-	  eventShow.append(eventName, eventTime);
-	   $('.events-panel-main').append(eventShow);
+		var eventShow = $('<div class="row">');
+		var name = childSnapshot.val().name;
+		var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
+		eventLink.attr('id','list');
+		var eventName = $('<div>').append(eventLink);
+		eventName.attr('id','name');
+		eventName.addClass('col-md-12')
+		var eventTime = $('<div>').append(childSnapshot.val().startTime);
+		eventTime.append('<hr>')
+		eventTime.attr('id','event-time');
+		eventTime.addClass('col-md-12 text-center')
+		eventShow.append(eventName, eventTime);
+		$('.events-panel-main').append(eventShow);
 	})
   })
 }
