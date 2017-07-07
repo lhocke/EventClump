@@ -329,7 +329,7 @@ function eventDisplay(snap, prevChildKey){
 
 function existingEventDatabase(snapshot) {
   // console.log("eventsExist")
-    snapshot.forEach(function(childSnapshot){
+  snapshot.forEach(function(childSnapshot){
     var eventShow = $('<tr>');
     var name = childSnapshot.val().name;
     var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
