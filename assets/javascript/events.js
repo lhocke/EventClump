@@ -10,6 +10,7 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+$(document).ready(existingEventDatabase);
 
 // database reset
 function dataClear(){
@@ -22,10 +23,10 @@ function dataClear(){
 // existingEventDatabase()
 function existingEventDatabase() {
 	console.log("running")
-	document.ref("localEvents").once("value").then(function(snapshot){
+	database.ref("localEvents").once("value").then(function(snapshot){
     console.log("eventsExist")
 	  snapshot.forEach(function(childSnapshot){
-	  var eventShow = $('<div>');
+	  var eventShow = $('<div class="row">');
 	  var name = childSnapshot.val().name;
 	  var eventLink = $('<a href="' + childSnapshot.val().url + '">' + name + '</href>');
 	  eventLink.attr('id','list');
@@ -34,7 +35,7 @@ function existingEventDatabase() {
 	  var eventTime = $('<div>').append(childSnapshot.val().startTime);
 	  eventTime.attr('id','event-time');
 	  eventShow.append(eventName, eventTime);
-	    $('#events-panel-main').append(eventShow);
+	   $('.events-panel-main').append(eventShow);
 	})
   })
 }
