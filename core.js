@@ -25,6 +25,7 @@ var upcomingID =[];
 var posterArray = [];
 
 // event variables
+var eventLocation = "";
 var eventDate = "";
 var eventTime = "";
 
