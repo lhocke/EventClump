@@ -11,8 +11,15 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// database reset
+function dataClear(){
+  database.ref('nowPlaying').remove();
+  database.ref('localEvents').remove();
+  database.ref('upcomingMovies').remove();
+}
+
 // $(document).ready(existingEventDatabase);
-existingEventDatabase()
+// existingEventDatabase()
 function existingEventDatabase() {
 	console.log("running")
 	document.ref("localEvents").once("value").then(function(snapshot){
