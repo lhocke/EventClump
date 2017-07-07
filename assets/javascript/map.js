@@ -216,17 +216,17 @@ function buildIWContent(place) {
 /* Modal Box for movie trailer Starts --*/
 
 $(document).on("click",".img-thumbnail", function() {
-  console.log("You click me");
-  //get assign movie id
-  var mID = $(this).attr("movie-id");
-  console.log("Movie Id -->"+mID);
+
+  //get youtube movie link
+  var url = $(this).attr("movie-trailer-link");
+  console.log("Movie Id -->"+url);
   $("#movieTrailerModal").on('show.bs.modal', function(){
-  // 	debugger;
-  //Build Youtube URL for movie trailer
-	var url = "https://www.youtube.com/embed/"+mID;
-	$("#movietrailer").attr('src', url);
-	console.log("Iframe  -->"+$("#movietrailer"));
+  //  debugger;
+
+  $("#movietrailer").attr('src', url);
+  console.log("Iframe  -->"+$("#movietrailer"));
   });
+
   $('#movieTrailerModal').modal('show');
 });
 
@@ -242,19 +242,24 @@ $("#movieTrailerModal").on('hide.bs.modal', function(){
 function upcomingMovieDatabase() {
   database.ref("upcomingMovies").once("value").then(function(snapshot){
     snapshot.forEach(function(childSnapshot){
-      var poster = childSnapshot.val().poster;
-      var movieDisplay = $('<div class="col-sm-6 col-md-12 upcoming-display">');
-      var movieCard = $('<div class="movie-card">');
-      var movieDiv = $('<div>');
-      var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
-      moviePoster.addClass('img-thumbnail upcoming-image');
-      movieDiv.append(moviePoster);
-      var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title + '</div>');
-      var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating + '</div>');
-      movieCard.append(movieDiv,movieTitle,movieRating);
-      // console.log(movieCard);
-      movieDisplay.append(movieCard);
-      $('#upcoming-movies').append(movieDisplay);
+     // console.log("Upcoming Movie link --"+(!childSnapshot.val().youtube))
+
+        var poster = childSnapshot.val().poster;
+        var movieDisplay = $('<div class="col-xs-4 col-sm-6 col-md-12">');
+        var movieCard = $('<div class="movie-card">');
+        var movieDiv = $('<div>');
+        var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+        //add data attribute to the image tag with youtube link
+        moviePoster.attr('movie-trailer-link',childSnapshot.val().youtube);
+        moviePoster.addClass('img-thumbnail');
+        movieDiv.append(moviePoster);
+        var movieTitle = $('<div class="text-left moviename">' + childSnapshot.val().title + '</div>');
+        var movieRating = $('<div class="text-left rating">' + childSnapshot.val().rating + '</div>');
+        movieCard.append(movieDiv,movieTitle,movieRating);
+        // console.log(movieCard);
+        movieDisplay.append(movieCard);
+        $('#upcoming-movies').append(movieDisplay);
+      
     });
   })
 }
@@ -262,10 +267,13 @@ function upcomingMovieDatabase() {
 function currentMovieDatabase() {
   database.ref("nowPlaying").once("value").then(function(snapshot){
       snapshot.forEach(function(childSnapshot){
+
         var movieDisplay = $('<div class="col-md-3 movie-display">');
         var movieCard = $('<div class="movie-card">');
         var movieDiv = $('<div class="movie-posters-container">');
         var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
+        //add data attribute to the image tag with youtube link
+        moviePoster.attr('movie-trailer-link',childSnapshot.val().youtube);
         moviePoster.addClass('img-thumbnail');
         movieDiv.append(moviePoster);
         var movieTitle = $('<div class="text-center moviename">' + childSnapshot.val().title + '</div>');
@@ -274,6 +282,7 @@ function currentMovieDatabase() {
         // console.log(movieCard);
         movieDisplay.append(movieCard);
         $('#movie-gallery').append(movieDisplay);
+      
       });
     })
 }
