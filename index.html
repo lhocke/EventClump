@@ -50,7 +50,9 @@
 		<div class="row max-height">
 			<div class="panel panel-info col-sm-6">
 				<div class="panel-heading">
-                	<h1 class="panel-movies text-center">Movies</h1>
+					<a href="movies.html">
+                		<h1 class="panel-movies text-center">Movies</h1>
+                	</a>
             	</div>
 				<div id="now-playing" class="panel-body">
                 <table class="table table-striped">
@@ -61,7 +63,9 @@
 			</div>
 			<div class="panel panel-info col-sm-6">
 				<div class="panel-heading">
-                	<h1 class="panel-events text-center">Events</h1>
+					<a href="events.html">
+	                	<h1 class="panel-events text-center">Events</h1>
+	                </a>
             	</div>
 				<div id="events" class="panel-body">
                 <table class="table table-striped">
@@ -72,6 +76,23 @@
 			</div>
 		</div>
 	</div>
+	<div class="trailer"> 
+	    <div id="movieTrailerModal" class="modal fade">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <STRONG>X</STRONG>
+	<!--                     <span class="glyphicon glyphicon-remove-sign">X</span>
+	 -->                    </button>
+	                    <!-- <h4 class="modal-title">YouTube Video</h4> -->
+	                </div>
+	                <div class="modal-body">
+	                    <iframe id="movietrailer" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div> 
 	<footer class="site-footer">
 	    <p class="text-muted text-center footer">&copy;Copyright EventClump</p>
 	</footer>

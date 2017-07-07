@@ -38,13 +38,16 @@ $(document).ready(movieDataCheck);
 // $(document).ready(eventDataCheck);
 $(document).ready(upcomingMovieDataCheck);
 
+$(document).on("click","#movie-poster",modalTrailer);
+$(document).on("click","#movie-poster",function(){
+  console.log("clicked")
+})
+
 
 // reset currently playing movies at midnight
 // if (moment() === moment().startOf('day')){
 //   dataClear();
 // }
-
-// $('#search-go').on('click', runAll)
 
 // database reset
 function dataClear(){
@@ -267,6 +270,7 @@ function nowPlaying(snap, prevChildKey){
   var moviePoster = $('<img>').attr('src', snap.val().poster);
   moviePoster.addClass('img img-responsive');
   var displayPoster = $('<td>').append(moviePoster);
+  displayPoster.attr('movie-trailer-link',childSnapshot.val().youtube);
   displayPoster.attr('id', 'movie-poster')
   movieURL = $('<a href="http://' + snap.val().showtimesURL + '">' + snap.val().title + '</href>')
   movieURL.attr('id', 'list')
@@ -282,6 +286,7 @@ function existingMovieDatabase(snapshot){
     var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
     moviePoster.addClass('img img-responsive');
     var displayPoster = $('<td>').append(moviePoster);
+    displayPoster.attr('movie-trailer-link',childSnapshot.val().youtube);
     displayPoster.attr('id', 'movie-poster')
     movieURL = $('<a href="http://' + childSnapshot.val().showtimesURL + '">' + childSnapshot.val().title + '</href>');
     movieURL.attr('id', "list")
@@ -392,3 +397,18 @@ function getLocation() {
   navigator.geolocation.getCurrentPosition(success, error);
 
 }
+
+function modalTrailer() {
+  //get youtube movie link
+  var url = $(this).attr("movie-trailer-link");
+  console.log("Movie Id -->"+url);
+  $("#movieTrailerModal").on('show.bs.modal', function(){
+  //  debugger;
+
+  $("#movietrailer").attr('src', url);
+  console.log("Iframe  -->"+$("#movietrailer"));
+  });
+
+  $('#movieTrailerModal').modal('show');
+};
+
