@@ -90,7 +90,7 @@ body {
     margin: 12px 0px 7px 0px;
 }
 
-#now-playing, #events, #sports {
+#now-playing, #events {
     height: 500px;
     overflow-y: scroll;
 }
@@ -140,12 +140,12 @@ body {
 /* Styles for Movie.html  Start*/
 
 .movie-panel {
-    height: 650px;
+    height: 600px;
     margin-top: 20px;
 }
 
 .movie-panel-main {
-    height: 650px;
+    height: 600px;
     overflow-y: scroll;
     margin-right: 10px;
     width: 75%;
@@ -153,20 +153,29 @@ body {
 }
 
 .movie-panel-side {
-    height: 650px;
+    height: 600px;
+    overflow-x: hidden;
     overflow-y: scroll;
     width: 23%;
 }
 
 .movie-card {
     display: inline-block;
+    white-space: nowrap;
     position: relative;
     overflow: visible;
     margin-bottom: 1.875rem;
     margin-top: 6px;
 }
 
+.movie-display, .col-md-3 {
+    display: inline-block;
+}
 
+.movie-container {
+    margin: -20px;
+    width: 100%;
+}
 .movie-posters-link {
     height: 100%;
     display: block;
@@ -180,7 +189,6 @@ body {
 }
 
 #movie-gallery {
-    display: inline-block;
     overflow-x: scroll;
     margin-top: 20px;
 }
@@ -213,7 +221,7 @@ body {
 }
 
 #city {
-    margin-top: 0;
+    margin-top: 10px;
 }
 
 .moviename {
@@ -243,6 +251,8 @@ h4 {
     width: 100%;
     background-color: #fff;
     padding-top: 0;
+    height: 600px;
+    overflow-y: scroll;
 }
 
 .performer {
@@ -384,7 +394,7 @@ h4 {
 
 /*End Modal*/
 
-#concerts-gallery, #comedy-gallery, #sports-gallery {
+#concerts-gallery, #comedy-gallery {
     overflow-x: scroll;
 }
 
