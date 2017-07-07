@@ -294,9 +294,14 @@ h4 {
 
 
 @media only screen and (max-width: 991px){
-    .movie-panel-side {
-        width: 75%;
-    
+
+    .movie-panel-main, .movie-panel-side{
+        width: 97%;
+        /*margin-right: 3%;*/
+        margin-left: 3%;
+    }
+    .movie-display{
+        margin-left: 10%;
     }
 
     .moviename {
@@ -311,6 +316,10 @@ h4 {
     text-shadow: 2px 2px 4px #b7b8bc;
     font-size: 12px;
     font-weight: 900;
+    }
+
+    .theaterLocation{
+        width: 100%;
     }
 }
 
