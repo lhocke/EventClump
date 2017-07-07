@@ -133,26 +133,33 @@ body {
     color: #cccccc;
 }
 
+.theaterLocation, .eventLocation {
+    width: 75%;
+}
+
 /* Styles for Movie.html  Start*/
 
 .movie-panel {
-    height: 700px;
+    height: 650px;
     margin-top: 20px;
 }
 
 .movie-panel-main {
-
+    height: 650px;
+    overflow-y: scroll;
     margin-right: 10px;
     width: 75%;
     background-color: #fff;
 }
 
 .movie-panel-side {
+    height: 650px;
     overflow-y: scroll;
     width: 23%;
 }
 
 .movie-card {
+    display: inline-block;
     position: relative;
     overflow: visible;
     margin-bottom: 1.875rem;
@@ -174,6 +181,7 @@ body {
 
 #movie-gallery {
     display: inline-block;
+    overflow-x: scroll;
     margin-top: 20px;
 }
 
