@@ -254,7 +254,7 @@ function upcomingMovieDatabase() {
 function currentMovieDatabase() {
   database.ref("nowPlaying").once("value").then(function(snapshot){
       snapshot.forEach(function(childSnapshot){
-        var movieDisplay = $('<div>');
+        var movieDisplay = $('<div class="col-md-3 movie-display">');
         var movieCard = $('<div class="movie-card">');
         var movieDiv = $('<div class="movie-posters-container">');
         var moviePoster = $('<img>').attr('src', childSnapshot.val().poster);
